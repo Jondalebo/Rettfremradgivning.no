@@ -29,7 +29,7 @@ const posts = [
 
 const Innsikt = () => {
   return (
-    <div className="pt-20">
+    <div className="pt-20"> {/* Clear fixed navbar */}
       <section className="py-20 px-6 md:px-12 lg:px-24 bg-white">
         <div className="max-w-[900px] mx-auto">
           {/* Top Section */}

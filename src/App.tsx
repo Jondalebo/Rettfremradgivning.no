@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, Phone, Mail, ArrowRight } from 'lucide-react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import Innsikt from './pages/Innsikt';
+import InnsiktPost from './pages/InnsiktPost';
 
 // --- Components ---
 
@@ -561,6 +562,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/innsikt" element={<Innsikt />} />
+            <Route path="/innsikt/:id" element={<InnsiktPost />} />
           </Routes>
         </main>
         <Footer />
