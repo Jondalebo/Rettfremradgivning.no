@@ -10,6 +10,9 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
   body {
     @apply font-sans text-apple-dark bg-white antialiased;
   }
@@ -33,4 +36,28 @@
 
 .text-muted {
   @apply text-apple-dark/60;
+}
+
+.btn-primary {
+  @apply px-8 py-4 rounded-full font-semibold flex items-center justify-center transition-all duration-200 bg-rf-blue text-white hover:opacity-90;
+}
+
+.btn-secondary {
+  @apply px-8 py-4 rounded-full font-semibold flex items-center justify-center transition-all duration-200 bg-apple-gray text-apple-dark hover:bg-gray-200;
+}
+
+.btn-outline {
+  @apply px-8 py-4 rounded-full font-semibold flex items-center justify-center transition-all duration-200 border border-apple-dark text-apple-dark hover:bg-apple-gray;
+}
+
+.card {
+  @apply bg-apple-gray rounded-3xl p-8 md:p-12 h-full;
+}
+
+.hover-lift {
+  @apply transition-transform duration-300 hover:-translate-y-0.5;
+}
+
+.label-sm {
+  @apply text-[0.7rem] font-bold uppercase tracking-[0.15em] text-apple-dark/60;
 }

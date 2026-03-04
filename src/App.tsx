@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, Phone, Mail, ArrowRight, Shield, Users, BarChart3, ChevronRight } from 'lucide-react';
+import { Menu, X, Phone, Mail, ArrowRight } from 'lucide-react';
 
 // --- Components ---
 
@@ -20,6 +20,21 @@ const Navbar = () => {
     { name: 'Kontakt', href: '#kontakt' },
   ];
 
+  const handleBookClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const contactSection = document.querySelector('#kontakt') as HTMLElement;
+    if (contactSection) {
+      const sectionTop = contactSection.offsetTop;
+      const sectionHeight = contactSection.offsetHeight;
+      const viewportHeight = window.innerHeight;
+      const offset = sectionTop - (viewportHeight / 2 - sectionHeight / 2) - 40;
+      window.scrollTo({
+        top: offset,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass py-4' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
@@ -36,6 +51,11 @@ const Navbar = () => {
             <a 
               key={link.name} 
               href={link.href} 
+              onClick={(e) => {
+                if (link.href === '#kontakt') {
+                  handleBookClick(e);
+                }
+              }}
               className="text-sm font-medium hover:text-rf-blue transition-colors"
             >
               {link.name}
@@ -43,7 +63,8 @@ const Navbar = () => {
           ))}
           <a 
             href="#kontakt" 
-            className="bg-rf-blue text-white px-5 py-2 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
+            onClick={handleBookClick}
+            className="btn-primary !px-5 !py-2 text-sm"
           >
             Book en samtale
           </a>
@@ -68,7 +89,12 @@ const Navbar = () => {
               <a 
                 key={link.name} 
                 href={link.href} 
-                onClick={() => setIsMobileMenuOpen(false)}
+                onClick={(e) => {
+                  setIsMobileMenuOpen(false);
+                  if (link.href === '#kontakt') {
+                    handleBookClick(e);
+                  }
+                }}
                 className="text-lg font-medium py-2"
               >
                 {link.name}
@@ -76,8 +102,11 @@ const Navbar = () => {
             ))}
             <a 
               href="#kontakt" 
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="bg-rf-blue text-white px-6 py-3 rounded-xl text-center font-medium"
+              onClick={(e) => {
+                setIsMobileMenuOpen(false);
+                handleBookClick(e);
+              }}
+              className="btn-primary !rounded-xl"
             >
               Book en samtale
             </a>
@@ -89,157 +118,168 @@ const Navbar = () => {
 };
 
 const Hero = () => {
+  const handleBookClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const contactSection = document.querySelector('#kontakt') as HTMLElement;
+    if (contactSection) {
+      const sectionTop = contactSection.offsetTop;
+      const sectionHeight = contactSection.offsetHeight;
+      const viewportHeight = window.innerHeight;
+      const offset = sectionTop - (viewportHeight / 2 - sectionHeight / 2) - 40;
+      window.scrollTo({
+        top: offset,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   return (
-    <section className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <section className="relative min-h-screen flex items-center pt-20 pb-12 overflow-hidden">
       {/* Abstract Background Element */}
       <div className="absolute top-1/4 -right-20 w-96 h-96 bg-rf-blue-light rounded-full blur-3xl opacity-50 -z-10" />
       <div className="absolute bottom-1/4 -left-20 w-72 h-72 bg-rf-blue-light rounded-full blur-3xl opacity-30 -z-10" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full flex justify-center">
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="max-w-4xl text-center flex flex-col items-center"
-        >
-          <h1 className="heading-xl mb-8">
-            Rådgivning som er <br /> <span className="text-rf-blue lowercase">rett frem.</span>
-          </h1>
-          <p className="text-xl md:text-2xl font-medium mb-6 leading-relaxed max-w-3xl">
-            Vi gjør komplekse utfordringer håndterbare – gjennom klare analyser, ærlige vurderinger og tiltak som faktisk fungerer i praksis.
-          </p>
-          <p className="text-lg text-muted mb-10 max-w-2xl mx-auto">
-            Rett Frem Rådgivning hjelper virksomheter og ledere med å navigere krevende situasjoner – enten det handler om sikkerhet i praksis, lederansvar under press eller strukturelle utfordringer i organisasjonen.
-          </p>
+      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-16 items-center">
+          {/* Left Column */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            <h1 className="text-[2.5rem] md:text-[3.5rem] lg:text-[3.75rem] font-bold text-apple-dark leading-[1.15] tracking-tight text-left">
+              Forutsigbare feil - <br />
+              <span className="text-rf-blue whitespace-nowrap">Avdekket før de skjer</span>
+            </h1>
+            <div className="w-12 h-[2px] bg-rf-blue my-4" />
+            <p className="text-base text-muted max-w-[560px] leading-[1.6]">
+              Jeg avdekker hvor og hvorfor beslutninger, systemer og rutiner vil feile i praksis – før dere har brukt tid, penger og prestisje på å få dem til å fungere.
+            </p>
+          </motion.div>
 
-          <div className="flex flex-col sm:flex-row gap-4 mb-12 justify-center">
-            <a href="#kontakt" className="bg-rf-blue text-white px-8 py-4 rounded-full font-semibold flex items-center justify-center gap-2 hover:opacity-90 transition-opacity">
-              Book en samtale <ArrowRight size={18} />
-            </a>
-            <a href="#tjenester" className="bg-apple-gray text-apple-dark px-8 py-4 rounded-full font-semibold flex items-center justify-center hover:bg-gray-200 transition-colors">
-              Les mer om tjenestene
-            </a>
-          </div>
+          {/* Right Column */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
+            className="flex flex-col lg:mt-20"
+          >
+            <div className="flex flex-col gap-5">
+              <a 
+                href="#kontakt" 
+                onClick={handleBookClick}
+                className="btn-primary !py-3 hover-lift gap-2"
+              >
+                Book en samtale <ArrowRight size={18} />
+              </a>
+              <a href="#tjenester" className="btn-outline !py-2.5 !px-6 text-sm hover-lift">
+                Se hva jeg gjør
+              </a>
+            </div>
 
-          <div className="flex flex-wrap gap-8 pt-8 border-t border-black/5 justify-center">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-rf-blue-light flex items-center justify-center text-rf-blue">
-                <Phone size={18} />
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-widest text-muted font-bold">Telefon</p>
-                <p className="font-semibold">955 33 28 46</p>
+            <div className="mt-10 flex flex-col items-center">
+              <p className="label-sm mb-4 opacity-70">Ta kontakt direkte</p>
+              <div className="flex flex-wrap justify-center gap-4">
+                <a 
+                  href="tel:955332846" 
+                  className="flex items-center gap-2 px-4 py-2 border border-apple-dark/10 rounded-[6px] text-[0.85rem] font-medium hover:bg-apple-gray transition-colors text-apple-dark/60"
+                >
+                  <Phone size={13} className="text-rf-blue/60" /> 955 33 28 46
+                </a>
+                <a 
+                  href="mailto:post@rettfremradgivning.no" 
+                  className="flex items-center gap-2 px-4 py-2 border border-apple-dark/10 rounded-[6px] text-[0.85rem] font-medium hover:bg-apple-gray transition-colors text-apple-dark/60"
+                >
+                  <Mail size={13} className="text-rf-blue/60" /> post@rettfremradgivning.no
+                </a>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-rf-blue-light flex items-center justify-center text-rf-blue">
-                <Mail size={18} />
-              </div>
-              <div>
-                <p className="text-xs uppercase tracking-widest text-muted font-bold">E-post</p>
-                <p className="font-semibold">post@rettfremradgivning.no</p>
-              </div>
-            </div>
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
 };
 
-const ServiceCard = ({ icon: Icon, title, subtitle, description, points, index }: any) => {
-  return (
-    <motion.div 
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-100px" }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      className="bg-apple-gray rounded-3xl p-8 md:p-12 flex flex-col h-full"
-    >
-      <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-rf-blue mb-8 shadow-sm">
-        <Icon size={28} />
-      </div>
-      <h3 className="text-sm font-bold uppercase tracking-widest text-rf-blue mb-2">{title}</h3>
-      <h4 className="text-2xl md:text-3xl font-semibold mb-6">{subtitle}</h4>
-      <p className="text-lg text-muted mb-8 leading-relaxed">
-        {description}
-      </p>
-      
-      <div className="mt-auto">
-        <p className="font-bold mb-4">Jeg bistår med:</p>
-        <ul className="space-y-3">
-          {points.map((point: string, i: number) => (
-            <li key={i} className="flex items-start gap-3 text-muted">
-              <ChevronRight size={18} className="text-rf-blue mt-1 shrink-0" />
-              <span>{point}</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </motion.div>
-  );
-};
-
 const Services = () => {
-  const services = [
-    {
-      icon: Shield,
-      title: "Praktisk HMS og sikkerhet i drift",
-      subtitle: "Når sikkerhet må fungere i praksis",
-      description: "Mange virksomheter har gode HMS-rutiner på papiret. Likevel oppstår de samme feilene igjen og igjen. Ofte handler det ikke om manglende vilje – men om hvordan systemer, rutiner og insentiver faktisk er utformet.",
-      points: [
-        "Analyse av hvorfor rutiner ikke følges",
-        "Kartlegging av friksjon i daglig drift",
-        "Identifisering av risikomomenter som ikke fanges opp i systemet",
-        "Tiltak som gir varig effekt – ikke bare mer opplæring"
-      ]
-    },
-    {
-      icon: Users,
-      title: "Lederstøtte i krevende situasjoner",
-      subtitle: "Støtte når lederrollen blir krevende",
-      description: "Som leder forventes det at du holder oversikten, er tydelig, rettferdig og strategisk – samtidig som du håndterer mennesker, konflikter og krav fra flere retninger.",
-      points: [
-        "Kartlegging av situasjonen grundig",
-        "Klargjør utfordringsbildet",
-        "Utvikler en konkret og anvendbar tilnærming",
-        "Gjennomfører ukentlige samtaler tilpasset din virkelighet"
-      ]
-    },
-    {
-      icon: BarChart3,
-      title: "Organisasjonskartlegging og systemanalyse",
-      subtitle: "Når utfordringene sitter i strukturen",
-      description: "Utfordringer i en virksomhet oppstår sjelden isolert. Ofte påvirker avdelinger, beslutningsstrukturer og insentiver hverandre på måter som ikke er synlige.",
-      points: [
-        "Avdekke hvordan deler av virksomheten påvirker hverandre",
-        "Identifisere strukturelle flaskehalser",
-        "Forstå hvordan interne mekanismer skaper eksterne resultater",
-        "Foreslå strukturelle justeringer som gir varig effekt"
-      ]
-    }
-  ];
-
   return (
-    <section id="tjenester" className="section-padding bg-white">
-      <div className="max-w-7xl mx-auto">
-        <motion.div 
+    <section id="tjenester" className="py-12 px-6 md:px-12 lg:px-24 bg-white scroll-mt-[35px]">
+      <div className="max-w-[900px] mx-auto">
+        {/* Top Section */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-16 text-center max-w-3xl mx-auto"
+          transition={{ duration: 0.8 }}
+          className="text-center"
         >
-          <h2 className="heading-lg mb-6">Tjenester</h2>
-          <p className="text-xl text-muted">
-            Vi tilbyr spesialisert rådgivning for å løse komplekse organisatoriske utfordringer.
+          <p className="text-[0.7rem] tracking-[0.15em] uppercase text-muted font-semibold mb-4 text-center">
+            TJENESTE
+          </p>
+          <h2 className="text-[2.5rem] font-extrabold text-apple-dark leading-tight text-center">
+            Langsiktig beslutningsstøtte
+          </h2>
+          <div className="w-12 h-[2px] bg-rf-blue mt-3 mb-0 mx-auto" />
+          <p className="text-[1rem] text-muted leading-[1.5] max-w-[650px] mt-4 mb-5 mx-auto text-center">
+            Jeg hjelper ledere å få full oversikt over utfordringene de står i – 
+            og bygge løsninger som varer over tid, ikke bare fungerer til neste krise.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {services.map((service, index) => (
-            <ServiceCard key={index} {...service} index={index} />
-          ))}
-        </div>
+        {/* Label */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="max-w-[85%] mx-auto"
+        >
+          <p className="text-[0.7rem] tracking-[0.15em] uppercase text-muted font-semibold mb-4 text-left">
+            SLIK JOBBER VI
+          </p>
+        </motion.div>
+
+        {/* Phase Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-5 max-w-[85%] mx-auto"
+        >
+          <div className="text-[0.95rem] leading-[1.5]">
+            <p className="text-[1rem] font-bold mb-1">1. Forstå situasjonen din</p>
+            <p className="text-apple-dark">Vi kartlegger hva utfordringen faktisk består av – hvilke variabler som spiller inn og hvem som må involveres.</p>
+          </div>
+
+          <div className="text-[0.95rem] leading-[1.5]">
+            <p className="text-[1rem] font-bold mb-1">2. Bygge en løsning som passer</p>
+            <p className="text-apple-dark">Vi bygger en praktisk tilnærming tilpasset din situasjon – noe som holder når situasjonen skifter.</p>
+          </div>
+
+          <div className="text-[0.95rem] leading-[1.5]">
+            <p className="text-[1rem] font-bold mb-1">3. Kontinuerlig justering</p>
+            <p className="text-apple-dark">Hvert møte er forberedt og målrettet. Vi justerer kursen i takt med det som skjer.</p>
+          </div>
+
+          <div className="text-[0.95rem] leading-[1.6]">
+            <p className="text-[1rem] font-bold mb-1">4. Forankre læringen</p>
+            <p className="text-apple-dark">Vi ser tilbake på hele prosessen – hva som fungerte, og hva du tar med deg videre.</p>
+          </div>
+        </motion.div>
+
+        {/* Practical Info - Moved to Bottom and Centered */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="text-center mt-8"
+        >
+          <p className="text-[0.95rem] font-semibold text-rf-blue tracking-[0.03em]">
+            Typisk varighet: 4–6 uker · Ukentlige møter · Fast pris
+          </p>
+        </motion.div>
       </div>
     </section>
   );
@@ -247,65 +287,79 @@ const Services = () => {
 
 const About = () => {
   return (
-    <section id="om-meg" className="section-padding bg-apple-gray">
-      <div className="max-w-7xl mx-auto">
+    <section id="om-meg" className="py-12 px-6 md:px-12 lg:px-24 bg-apple-gray scroll-mt-[35px]">
+      <div className="max-w-[900px] mx-auto">
+        {/* Top Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="text-center mb-10"
         >
-          <h2 className="heading-lg mb-8">Om Rett Frem Rådgivning</h2>
-          <div className="space-y-8 text-lg text-muted leading-relaxed">
-            <p>
-              Rett Frem Rådgivning er etablert med et mål om å gjøre krevende problemstillinger enklere å forstå og mulig å håndtere.
-            </p>
-            <p>
-              Tilnærmingen er analytisk, systemorientert og praktisk. Jeg arbeider i skjæringspunktet mellom menneskelig adferd, organisasjonsforståelse og operativ drift.
-            </p>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="max-w-4xl mx-auto text-center"
-        >
-          <div className="py-12 px-8 bg-white rounded-3xl shadow-sm mb-8">
-            <p className="text-2xl md:text-3xl font-semibold text-apple-dark italic leading-relaxed">
-              "Fokuset er alltid det samme: Å finne tiltak som fungerer i virkeligheten – ikke bare på papiret."
-            </p>
-          </div>
-          <p className="text-lg text-muted leading-relaxed max-w-2xl mx-auto">
-            Ingen standardpakker. Ingen unødvendig kompleksitet. Bare tydelige vurderinger og konkrete grep.
+          <p className="text-[0.7rem] tracking-[0.15em] uppercase text-muted font-semibold mb-4">
+            OM MEG
+          </p>
+          <h2 className="text-[2.5rem] font-extrabold text-apple-dark leading-tight mb-3">
+            Jon Martin Hovd Dalebø
+          </h2>
+          <div className="w-12 h-[2px] bg-rf-blue mt-3 mb-5 mx-auto" />
+          <p className="text-[1rem] text-muted leading-[1.6] max-w-[600px] mx-auto">
+            Psykologiutdanning med fordypning i organisasjonspsykologi, 
+            kombinert med bred erfaring fra arbeid tett på mennesker 
+            i krevende situasjoner.
           </p>
         </motion.div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1 }}
-          className="relative h-64 mt-24 rounded-3xl overflow-hidden bg-rf-blue/5 flex items-center justify-center p-12"
-        >
-          {/* Abstract geometric representation of "Straight Forward" */}
-          <div className="relative w-full max-w-2xl flex items-center justify-center">
-            <div className="absolute w-full h-1 bg-rf-blue/20" />
-            <motion.div 
-              initial={{ width: 0 }}
-              whileInView={{ width: "100%" }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.5, delay: 0.5, ease: "easeInOut" }}
-              className="absolute h-1 bg-rf-blue z-10" 
-            />
-            <div className="w-20 h-20 border-4 border-rf-blue rounded-full bg-white z-20 flex items-center justify-center shadow-lg">
-              <ArrowRight size={32} className="text-rf-blue" />
+
+        {/* Two Columns Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+          {/* Left Column */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            <p className="text-[1rem] text-apple-dark leading-[1.7] mb-5">
+              Jeg har jobbet i roller der forståelse av mennesker og systemer 
+              har vært avgjørende. Det har gitt meg et praktisk blikk på hvordan 
+              organisasjoner faktisk fungerer – ikke bare hvordan de er ment 
+              å fungere.
+            </p>
+            <p className="text-[1rem] text-apple-dark leading-[1.7]">
+              Den innsikten bruker jeg til å hjelpe ledere navigere situasjoner 
+              der mennesker, systemer og beslutninger møtes.
+            </p>
+          </motion.div>
+
+          {/* Right Column */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="flex flex-col gap-5"
+          >
+            <div>
+              <p className="text-[1rem] font-bold text-apple-dark mb-1.5">Organisasjonspsykologi</p>
+              <p className="text-[0.95rem] text-muted leading-[1.6]">
+                Beslutningsprosesser, menneskelig adferd og organisasjonsforståelse
+              </p>
             </div>
-          </div>
-        </motion.div>
+            <div>
+              <p className="text-[1rem] font-bold text-apple-dark mb-1.5">Relasjonsarbeid under press</p>
+              <p className="text-[0.95rem] text-muted leading-[1.6]">
+                Erfaring med tett oppfølging av mennesker i svært krevende situasjoner over tid
+              </p>
+            </div>
+            <div>
+              <p className="text-[1rem] font-bold text-apple-dark mb-1.5">Strategisk rådgivning og markedsføring</p>
+              <p className="text-[0.95rem] text-muted leading-[1.6]">
+                Relasjonsbasert salg, kundedialog og forretningsutvikling
+              </p>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -324,96 +378,93 @@ const Contact = () => {
   };
 
   return (
-    <section id="kontakt" className="section-padding bg-white">
-      <div className="max-w-7xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center max-w-3xl mx-auto mb-16"
-        >
-          <h2 className="heading-lg mb-8">Ta kontakt</h2>
-          <p className="text-xl text-muted leading-relaxed">
-            Ønsker du en uforpliktende samtale om en konkret situasjon? Ta kontakt.
-          </p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-stretch">
+    <section id="kontakt" className="min-h-screen flex items-center py-12 lg:py-0 px-6 md:px-12 lg:px-24 bg-white">
+      <div className="max-w-7xl mx-auto w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-[50px] items-center">
+          {/* Left Column: Info Card with Heading */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-apple-gray p-8 md:p-12 rounded-3xl flex flex-col justify-center"
+            className="card flex flex-col justify-center !p-8 lg:!p-12"
           >
-            <div className="space-y-12">
-              <div className="flex items-center gap-8">
-                <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center text-rf-blue shadow-sm shrink-0">
-                  <Phone size={32} />
+            <div className="mb-10">
+              <h2 className="heading-lg mb-4">Ta kontakt</h2>
+              <p className="text-lg text-muted leading-relaxed max-w-md">
+                Ønsker du en uforpliktende samtale om en konkret situasjon? Ta kontakt.
+              </p>
+            </div>
+
+            <div className="space-y-8">
+              <div className="flex items-center gap-6">
+                <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center text-rf-blue shadow-sm shrink-0">
+                  <Phone size={24} />
                 </div>
                 <div>
-                  <p className="text-xs uppercase tracking-widest text-muted font-bold mb-1">Telefon</p>
-                  <p className="text-2xl md:text-3xl font-semibold">955 33 28 46</p>
+                  <p className="label-sm mb-1">Telefon</p>
+                  <p className="text-xl md:text-2xl font-semibold">955 33 28 46</p>
                 </div>
               </div>
-              <div className="flex items-center gap-8">
-                <div className="w-16 h-16 rounded-2xl bg-white flex items-center justify-center text-rf-blue shadow-sm shrink-0">
-                  <Mail size={32} />
+              <div className="flex items-center gap-6">
+                <div className="w-14 h-14 rounded-2xl bg-white flex items-center justify-center text-rf-blue shadow-sm shrink-0">
+                  <Mail size={24} />
                 </div>
                 <div>
-                  <p className="text-xs uppercase tracking-widest text-muted font-bold mb-1">E-post</p>
-                  <p className="text-2xl md:text-3xl font-semibold break-all">post@rettfremradgivning.no</p>
+                  <p className="label-sm mb-1">E-post</p>
+                  <p className="text-xl md:text-2xl font-semibold whitespace-nowrap">post@rettfremradgivning.no</p>
                 </div>
               </div>
             </div>
           </motion.div>
 
+          {/* Right Column: Form Card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="bg-apple-gray p-8 md:p-12 rounded-3xl"
+            className="card !p-8 lg:!p-12"
           >
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-bold uppercase tracking-widest mb-2">Navn</label>
+                <label htmlFor="name" className="block label-sm mb-1.5">Navn</label>
                 <input 
                   type="text" 
                   id="name" 
                   required
                   value={formState.name}
                   onChange={(e) => setFormState({...formState, name: e.target.value})}
-                  className="w-full bg-white border border-black/5 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-rf-blue/20 transition-all"
+                  className="w-full bg-white border border-black/5 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-rf-blue/20 transition-all"
                   placeholder="Ditt navn"
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-bold uppercase tracking-widest mb-2">E-post</label>
+                <label htmlFor="email" className="block label-sm mb-1.5">E-post</label>
                 <input 
                   type="email" 
                   id="email" 
                   required
                   value={formState.email}
                   onChange={(e) => setFormState({...formState, email: e.target.value})}
-                  className="w-full bg-white border border-black/5 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-rf-blue/20 transition-all"
+                  className="w-full bg-white border border-black/5 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-rf-blue/20 transition-all"
                   placeholder="din@epost.no"
                 />
               </div>
               <div>
-                <label htmlFor="message" className="block text-sm font-bold uppercase tracking-widest mb-2">Melding</label>
+                <label htmlFor="message" className="block label-sm mb-1.5">Melding</label>
                 <textarea 
                   id="message" 
-                  rows={4} 
+                  rows={3} 
                   required
                   value={formState.message}
                   onChange={(e) => setFormState({...formState, message: e.target.value})}
-                  className="w-full bg-white border border-black/5 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-rf-blue/20 transition-all resize-none"
+                  className="w-full bg-white border border-black/5 rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-rf-blue/20 transition-all resize-none"
                   placeholder="Hvordan kan jeg hjelpe?"
                 ></textarea>
               </div>
               <button 
                 type="submit" 
-                className={`w-full py-4 rounded-xl font-bold transition-all ${isSubmitted ? 'bg-emerald-500 text-white' : 'bg-rf-blue text-white hover:opacity-90'}`}
+                className={`w-full py-3.5 rounded-xl font-bold transition-all ${isSubmitted ? 'bg-emerald-500 text-white' : 'bg-rf-blue text-white hover:opacity-90'}`}
               >
                 {isSubmitted ? 'Melding sendt!' : 'Send melding'}
               </button>
