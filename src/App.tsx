@@ -8,39 +8,100 @@ import InnsiktPost from './pages/InnsiktPost';
 // --- Components ---
 
 const ScrollToTop = () => {
-  const { pathname, hash } = useLocation();
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    if (hash) {
-      const id = hash.replace('#', '');
-      const element = document.getElementById(id);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    } else {
-      window.scrollTo(0, 0);
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
     }
-  }, [pathname, hash]);
+    window.scrollTo(0, 0);
+  }, [pathname]);
 
   return null;
+};
+
+const useActiveSection = () => {
+  const [activeSection, setActiveSection] = useState('hero');
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname !== '/') {
+      setActiveSection('');
+      return;
+    }
+
+    const sectionIds = ['hero', 'tjeneste', 'om-meg', 'kontakt'];
+    
+    const observerOptions = {
+      root: null,
+      rootMargin: '-40% 0px -40% 0px',
+      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5],
+    };
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      console.log('--- Intersection Update ---');
+      entries.forEach(entry => {
+        if (entry.intersectionRatio > 0 || entry.isIntersecting) {
+          console.log(`Section: ${entry.target.id.padEnd(10)} | Ratio: ${entry.intersectionRatio.toFixed(4)} | Intersecting: ${entry.isIntersecting}`);
+        }
+      });
+
+      const intersectingEntries = entries.filter(entry => entry.isIntersecting);
+      
+      if (intersectingEntries.length > 0) {
+        const mostIntersecting = intersectingEntries.reduce((prev, current) => 
+          (prev.intersectionRatio > current.intersectionRatio) ? prev : current
+        );
+        console.log(`%cWINNER (Observer): ${mostIntersecting.target.id}`, 'color: #003366; font-weight: bold; background: #e0f2fe; padding: 2px 5px; border-radius: 3px;');
+        setActiveSection(mostIntersecting.target.id);
+      }
+    };
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions);
+
+    sectionIds.forEach((id) => {
+      const element = document.getElementById(id);
+      if (element) observer.observe(element);
+    });
+
+    const handleScroll = () => {
+      if (window.scrollY < 50) {
+        if (activeSection !== 'hero') {
+          console.log('%cFORCING HERO (Scroll < 50)', 'color: #059669; font-weight: bold;');
+          setActiveSection('hero');
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Check initial state
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [location.pathname]);
+
+  return activeSection;
 };
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const activeSection = useActiveSection();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
-    { name: 'Tjenester', href: '/#tjenester' },
-    { name: 'Innsikt', href: '/innsikt' },
+    { name: 'Tjeneste', href: '/#tjeneste' },
     { name: 'Om meg', href: '/#om-meg' },
     { name: 'Kontakt', href: '/#kontakt' },
+    { name: 'Innsikt', href: '/innsikt' },
   ];
 
   const handleLinkClick = (e: React.MouseEvent, href: string) => {
@@ -78,25 +139,47 @@ const Navbar = () => {
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass py-4' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-rf-blue rounded-sm flex items-center justify-center">
-            {/* Plain blue square as requested */}
+        <Link 
+          to="/#hero" 
+          onClick={(e) => handleLinkClick(e, '/#hero')}
+          className="flex items-center gap-2"
+        >
+          <div className="w-6 h-6 flex items-center justify-center">
+            <svg 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              className="w-full h-full text-rf-blue"
+              stroke="currentColor" 
+              strokeWidth="2.5" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <path d="M4 12h16M14 6l6 6-6 6" />
+            </svg>
           </div>
-          <span className="font-semibold text-lg tracking-tight hidden sm:block">Rett Frem Rådgivning</span>
+          <span className="font-semibold text-lg tracking-tight hidden sm:block text-apple-dark">Rett Frem Rådgivning</span>
         </Link>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link 
-              key={link.name} 
-              to={link.href} 
-              onClick={(e) => handleLinkClick(e, link.href)}
-              className="text-sm font-medium hover:text-rf-blue transition-colors"
-            >
-              {link.name}
-            </Link>
-          ))}
+          {navLinks.map((link) => {
+            const linkId = link.href.replace('/#', '');
+            const isActive = activeSection === linkId || (location.pathname === link.href && !activeSection);
+            return (
+              <Link 
+                key={link.name} 
+                to={link.href} 
+                onClick={(e) => handleLinkClick(e, link.href)}
+                className={`text-sm transition-all duration-200 pb-1 border-b-2 ${
+                  isActive 
+                    ? 'text-rf-blue font-semibold border-rf-blue' 
+                    : 'text-apple-body font-normal border-transparent hover:text-rf-blue'
+                }`}
+              >
+                {link.name}
+              </Link>
+            );
+          })}
           <Link 
             to="/#kontakt" 
             onClick={handleBookClick}
@@ -121,16 +204,24 @@ const Navbar = () => {
             exit={{ opacity: 0, y: -20 }}
             className="absolute top-full left-0 right-0 bg-white border-b border-black/5 p-6 flex flex-col gap-4 md:hidden"
           >
-            {navLinks.map((link) => (
-              <Link 
-                key={link.name} 
-                to={link.href} 
-                onClick={(e) => handleLinkClick(e, link.href)}
-                className="text-lg font-medium py-2"
-              >
-                {link.name}
-              </Link>
-            ))}
+            {navLinks.map((link) => {
+              const linkId = link.href.replace('/#', '');
+              const isActive = activeSection === linkId || (location.pathname === link.href && !activeSection);
+              return (
+                <Link 
+                  key={link.name} 
+                  to={link.href} 
+                  onClick={(e) => handleLinkClick(e, link.href)}
+                  className={`text-lg transition-all duration-200 py-2 border-b-2 w-fit ${
+                    isActive 
+                      ? 'text-rf-blue font-semibold border-rf-blue' 
+                      : 'text-apple-dark font-normal border-transparent'
+                  }`}
+                >
+                  {link.name}
+                </Link>
+              );
+            })}
             <Link 
               to="/#kontakt" 
               onClick={handleBookClick}
@@ -162,13 +253,13 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center pt-20 pb-12 overflow-hidden">
+    <section id="hero" className="relative min-h-screen flex items-center pt-20 pb-12 overflow-hidden">
       {/* Abstract Background Element */}
       <div className="absolute top-1/4 -right-20 w-96 h-96 bg-rf-blue-light rounded-full blur-3xl opacity-50 -z-10" />
       <div className="absolute bottom-1/4 -left-20 w-72 h-72 bg-rf-blue-light rounded-full blur-3xl opacity-30 -z-10" />
 
-      <div className="max-w-7xl mx-auto px-6 md:px-12 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-16 items-center">
+      <div className="max-w-6xl mx-auto px-6 md:px-12 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 items-center">
           {/* Left Column */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -176,12 +267,12 @@ const Hero = () => {
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
             <h1 className="text-[2.5rem] md:text-[3.5rem] lg:text-[3.75rem] font-bold text-apple-dark leading-[1.15] tracking-tight text-left">
-              Forutsigbare feil - <br />
-              <span className="text-rf-blue whitespace-nowrap">Avdekket før de skjer</span>
+              De beste beslutningene <br />
+              tas <span className="text-rf-blue text-[1.12em]">Ikke</span> alene
             </h1>
             <div className="w-12 h-[2px] bg-rf-blue my-4" />
-            <p className="text-base text-muted max-w-[560px] leading-[1.6]">
-              Jeg avdekker hvor og hvorfor beslutninger, systemer og rutiner vil feile i praksis – før dere har brukt tid, penger og prestisje på å få dem til å fungere.
+            <p className="text-base text-apple-body max-w-[560px] leading-[1.6]">
+              Ekstern beslutningsstøtte for ledere som står i krevende, uoversiktlige eller strategisk viktige situasjoner.
             </p>
           </motion.div>
 
@@ -200,7 +291,7 @@ const Hero = () => {
               >
                 Book en samtale <ArrowRight size={18} />
               </a>
-              <a href="#tjenester" className="btn-outline !py-2.5 !px-6 text-sm hover-lift">
+              <a href="#tjeneste" className="btn-outline !py-2.5 !px-6 text-sm hover-lift">
                 Se hva jeg gjør
               </a>
             </div>
@@ -231,7 +322,7 @@ const Hero = () => {
 
 const Services = () => {
   return (
-    <section id="tjenester" className="py-12 px-6 md:px-12 lg:px-24 bg-white scroll-mt-[35px]">
+    <section id="tjeneste" className="py-[2rem] px-6 md:px-12 lg:px-24 bg-white scroll-mt-[35px]">
       <div className="max-w-[900px] mx-auto">
         {/* Top Section */}
         <motion.div
@@ -241,14 +332,14 @@ const Services = () => {
           transition={{ duration: 0.8 }}
           className="text-center"
         >
-          <p className="text-[0.7rem] tracking-[0.15em] uppercase text-muted font-semibold mb-4 text-center">
+          <p className="text-[0.7rem] tracking-[0.15em] uppercase text-rf-blue/70 font-semibold mb-4 text-center">
             TJENESTE
           </p>
-          <h2 className="text-[2.5rem] font-extrabold text-apple-dark leading-tight text-center">
+          <h2 className="text-[2.5rem] font-extrabold text-apple-dark leading-tight text-center mb-[0.5rem]">
             Langsiktig beslutningsstøtte
           </h2>
-          <div className="w-12 h-[2px] bg-rf-blue mt-3 mb-0 mx-auto" />
-          <p className="text-[1rem] text-muted leading-[1.5] max-w-[650px] mt-4 mb-5 mx-auto text-center">
+          <div className="w-12 h-[2px] bg-rf-blue mt-3 mb-[0.75rem] mx-auto" />
+          <p className="text-[1rem] text-apple-body leading-[1.5] max-w-[650px] mt-4 mb-[1rem] mx-auto text-center">
             Jeg hjelper ledere å få full oversikt over utfordringene de står i – 
             og bygge løsninger som varer over tid, ikke bare fungerer til neste krise.
           </p>
@@ -262,7 +353,7 @@ const Services = () => {
           transition={{ duration: 0.8, delay: 0.1 }}
           className="max-w-[85%] mx-auto"
         >
-          <p className="text-[0.7rem] tracking-[0.15em] uppercase text-muted font-semibold mb-4 text-left">
+          <p className="text-[0.7rem] tracking-[0.15em] uppercase text-rf-blue/70 font-semibold mb-[0.75rem] text-left">
             SLIK JOBBER VI
           </p>
         </motion.div>
@@ -273,26 +364,26 @@ const Services = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-5 max-w-[85%] mx-auto"
+          className="grid grid-cols-1 md:grid-cols-2 gap-[0.85rem] mb-5 max-w-[85%] mx-auto"
         >
-          <div className="text-[0.95rem] leading-[1.5]">
-            <p className="text-[1rem] font-bold mb-1">1. Forstå situasjonen din</p>
-            <p className="text-apple-dark">Vi kartlegger hva utfordringen faktisk består av – hvilke variabler som spiller inn og hvem som må involveres.</p>
+          <div className="bg-white rounded-[10px] p-[0.9rem_1.1rem] shadow-[0_2px_12px_rgba(0,0,0,0.06)] text-[0.95rem] leading-[1.5]">
+            <p className="text-[0.95rem] font-bold mb-1 text-apple-dark">1. Forstå situasjonen din</p>
+            <p className="text-[0.875rem] leading-[1.5] text-apple-body">Vi kartlegger hva utfordringen faktisk består av – hvilke variabler som spiller inn og hvem som må involveres.</p>
           </div>
 
-          <div className="text-[0.95rem] leading-[1.5]">
-            <p className="text-[1rem] font-bold mb-1">2. Bygge en løsning som passer</p>
-            <p className="text-apple-dark">Vi bygger en praktisk tilnærming tilpasset din situasjon – noe som holder når situasjonen skifter.</p>
+          <div className="bg-white rounded-[10px] p-[0.9rem_1.1rem] shadow-[0_2px_12px_rgba(0,0,0,0.06)] text-[0.95rem] leading-[1.5]">
+            <p className="text-[0.95rem] font-bold mb-1 text-apple-dark">2. Bygge en løsning som passer</p>
+            <p className="text-[0.875rem] leading-[1.5] text-apple-body">Vi bygger en praktisk tilnærming tilpasset din situasjon – noe som holder når situasjonen skifter.</p>
           </div>
 
-          <div className="text-[0.95rem] leading-[1.5]">
-            <p className="text-[1rem] font-bold mb-1">3. Kontinuerlig justering</p>
-            <p className="text-apple-dark">Hvert møte er forberedt og målrettet. Vi justerer kursen i takt med det som skjer.</p>
+          <div className="bg-white rounded-[10px] p-[0.9rem_1.1rem] shadow-[0_2px_12px_rgba(0,0,0,0.06)] text-[0.95rem] leading-[1.5]">
+            <p className="text-[0.95rem] font-bold mb-1 text-apple-dark">3. Kontinuerlig justering</p>
+            <p className="text-[0.875rem] leading-[1.5] text-apple-body">Hvert møte er forberedt og målrettet. Vi justerer kursen i takt med det som skjer.</p>
           </div>
 
-          <div className="text-[0.95rem] leading-[1.6]">
-            <p className="text-[1rem] font-bold mb-1">4. Forankre læringen</p>
-            <p className="text-apple-dark">Vi ser tilbake på hele prosessen – hva som fungerte, og hva du tar med deg videre.</p>
+          <div className="bg-white rounded-[10px] p-[0.9rem_1.1rem] shadow-[0_2px_12px_rgba(0,0,0,0.06)] text-[0.95rem] leading-[1.5]">
+            <p className="text-[0.95rem] font-bold mb-1 text-apple-dark">4. Forankre læringen</p>
+            <p className="text-[0.875rem] leading-[1.5] text-apple-body">Vi ser tilbake på hele prosessen – hva som fungerte, og hva du tar med deg videre.</p>
           </div>
         </motion.div>
 
@@ -304,7 +395,7 @@ const Services = () => {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="text-center mt-8"
         >
-          <p className="text-[0.95rem] font-semibold text-rf-blue tracking-[0.03em]">
+          <p className="text-[0.95rem] font-semibold text-apple-dark tracking-[0.03em]">
             Typisk varighet: 4–6 uker · Ukentlige møter · Fast pris
           </p>
         </motion.div>
@@ -315,7 +406,7 @@ const Services = () => {
 
 const About = () => {
   return (
-    <section id="om-meg" className="py-12 px-6 md:px-12 lg:px-24 bg-apple-gray scroll-mt-[35px]">
+    <section id="om-meg" className="py-10 px-6 md:px-12 lg:px-24 bg-apple-gray scroll-mt-[35px]">
       <div className="max-w-[900px] mx-auto">
         {/* Top Section */}
         <motion.div
@@ -323,16 +414,16 @@ const About = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-10"
+          className="text-center mb-6"
         >
-          <p className="text-[0.7rem] tracking-[0.15em] uppercase text-muted font-semibold mb-4">
+          <p className="text-[0.7rem] tracking-[0.15em] uppercase text-rf-blue/70 font-semibold mb-4">
             OM MEG
           </p>
-          <h2 className="text-[2.5rem] font-extrabold text-apple-dark leading-tight mb-3">
+          <h2 className="text-[2rem] font-extrabold text-apple-dark leading-tight mb-2">
             Jon Martin Hovd Dalebø
           </h2>
-          <div className="w-12 h-[2px] bg-rf-blue mt-3 mb-5 mx-auto" />
-          <p className="text-[1rem] text-muted leading-[1.6] max-w-[600px] mx-auto">
+          <div className="w-12 h-[2px] bg-rf-blue mt-3 mb-3 mx-auto" />
+          <p className="text-[0.95rem] text-apple-body leading-[1.5] max-w-[600px] mx-auto">
             Psykologiutdanning med fordypning i organisasjonspsykologi, 
             kombinert med bred erfaring fra arbeid tett på mennesker 
             i krevende situasjoner.
@@ -340,7 +431,7 @@ const About = () => {
         </motion.div>
 
         {/* Two Columns Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch">
           {/* Left Column */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
@@ -348,16 +439,18 @@ const About = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <p className="text-[1rem] text-apple-dark leading-[1.7] mb-5">
-              Jeg har jobbet i roller der forståelse av mennesker og systemer 
-              har vært avgjørende. Det har gitt meg et praktisk blikk på hvordan 
-              organisasjoner faktisk fungerer – ikke bare hvordan de er ment 
-              å fungere.
-            </p>
-            <p className="text-[1rem] text-apple-dark leading-[1.7]">
-              Den innsikten bruker jeg til å hjelpe ledere navigere situasjoner 
-              der mennesker, systemer og beslutninger møtes.
-            </p>
+            <div className="bg-white rounded-[10px] p-[1.25rem] shadow-[0_2px_12px_rgba(0,0,0,0.06)] h-full">
+              <p className="text-[0.9rem] text-apple-dark leading-[1.55] mb-3">
+                Jeg har jobbet i roller der forståelse av mennesker og systemer 
+                har vært avgjørende. Det har gitt meg et praktisk blikk på hvordan 
+                organisasjoner faktisk fungerer – ikke bare hvordan de er ment 
+                å fungere.
+              </p>
+              <p className="text-[0.9rem] text-apple-dark leading-[1.55]">
+                Den innsikten bruker jeg til å hjelpe ledere navigere situasjoner 
+                der mennesker, systemer og beslutninger møtes.
+              </p>
+            </div>
           </motion.div>
 
           {/* Right Column */}
@@ -366,23 +459,23 @@ const About = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="flex flex-col gap-5"
+            className="flex flex-col gap-[0.5rem]"
           >
-            <div>
-              <p className="text-[1rem] font-bold text-apple-dark mb-1.5">Organisasjonspsykologi</p>
-              <p className="text-[0.95rem] text-muted leading-[1.6]">
+            <div className="bg-white rounded-[10px] px-[1.25rem] py-[1rem] shadow-[0_2px_12px_rgba(0,0_0,0.06)]">
+              <p className="text-[0.95rem] font-bold text-apple-dark mb-1.5">Organisasjonspsykologi</p>
+              <p className="text-[0.85rem] text-apple-body leading-[1.5]">
                 Beslutningsprosesser, menneskelig adferd og organisasjonsforståelse
               </p>
             </div>
-            <div>
-              <p className="text-[1rem] font-bold text-apple-dark mb-1.5">Relasjonsarbeid under press</p>
-              <p className="text-[0.95rem] text-muted leading-[1.6]">
+            <div className="bg-white rounded-[10px] px-[1.25rem] py-[1rem] shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
+              <p className="text-[0.95rem] font-bold text-apple-dark mb-1.5">Relasjonsarbeid under press</p>
+              <p className="text-[0.85rem] text-apple-body leading-[1.5]">
                 Erfaring med tett oppfølging av mennesker i svært krevende situasjoner over tid
               </p>
             </div>
-            <div>
-              <p className="text-[1rem] font-bold text-apple-dark mb-1.5">Strategisk rådgivning og markedsføring</p>
-              <p className="text-[0.95rem] text-muted leading-[1.6]">
+            <div className="bg-white rounded-[10px] px-[1.25rem] py-[1rem] shadow-[0_2px_12px_rgba(0,0,0,0.06)]">
+              <p className="text-[0.95rem] font-bold text-apple-dark mb-1.5">Strategisk rådgivning og markedsføring</p>
+              <p className="text-[0.85rem] text-apple-body leading-[1.5]">
                 Relasjonsbasert salg, kundedialog og forretningsutvikling
               </p>
             </div>
@@ -417,8 +510,8 @@ const Contact = () => {
             className="card flex flex-col justify-center !p-8 lg:!p-12"
           >
             <div className="mb-10">
-              <h2 className="heading-lg mb-4">Ta kontakt</h2>
-              <p className="text-lg text-muted leading-relaxed max-w-md">
+              <h2 className="heading-lg mb-4 text-apple-dark">Ta kontakt</h2>
+              <p className="text-lg text-apple-body leading-relaxed max-w-md">
                 Ønsker du en uforpliktende samtale om en konkret situasjon? Ta kontakt.
               </p>
             </div>
@@ -430,7 +523,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="label-sm mb-1">Telefon</p>
-                  <p className="text-xl md:text-2xl font-semibold">955 33 28 46</p>
+                  <p className="text-xl md:text-2xl font-semibold text-apple-dark">955 33 28 46</p>
                 </div>
               </div>
               <div className="flex items-center gap-6">
@@ -439,7 +532,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <p className="label-sm mb-1">E-post</p>
-                  <p className="text-xl md:text-2xl font-semibold whitespace-nowrap">post@rettfremradgivning.no</p>
+                  <p className="text-xl md:text-2xl font-semibold whitespace-nowrap text-apple-dark">post@rettfremradgivning.no</p>
                 </div>
               </div>
             </div>
@@ -524,17 +617,29 @@ const Footer = () => {
     <footer className="py-12 px-6 border-t border-black/5 bg-white">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 bg-rf-blue rounded-sm" />
-          <span className="font-semibold tracking-tight">Rett Frem Rådgivning</span>
+          <div className="w-5 h-5 flex items-center justify-center">
+            <svg 
+              viewBox="0 0 24 24" 
+              fill="none" 
+              className="w-full h-full text-rf-blue"
+              stroke="currentColor" 
+              strokeWidth="2.5" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            >
+              <path d="M4 12h16M14 6l6 6-6 6" />
+            </svg>
+          </div>
+          <span className="font-semibold tracking-tight text-apple-dark">Rett Frem Rådgivning</span>
         </div>
-        <div className="text-sm text-muted">
+        <div className="text-sm text-apple-body/60">
           © {new Date().getFullYear()} Rett Frem Rådgivning. Alle rettigheter reservert.
         </div>
         <div className="flex gap-6 text-sm font-medium">
-          <Link to="/#tjenester" onClick={(e) => handleLinkClick(e, '/#tjenester')} className="hover:text-rf-blue transition-colors">Tjenester</Link>
-          <Link to="/innsikt" className="hover:text-rf-blue transition-colors">Innsikt</Link>
-          <Link to="/#om-meg" onClick={(e) => handleLinkClick(e, '/#om-meg')} className="hover:text-rf-blue transition-colors">Om meg</Link>
-          <Link to="/#kontakt" onClick={(e) => handleLinkClick(e, '/#kontakt')} className="hover:text-rf-blue transition-colors">Kontakt</Link>
+          <Link to="/#tjeneste" onClick={(e) => handleLinkClick(e, '/#tjeneste')} className="text-apple-body hover:text-rf-blue transition-colors">Tjeneste</Link>
+          <Link to="/#om-meg" onClick={(e) => handleLinkClick(e, '/#om-meg')} className="text-apple-body hover:text-rf-blue transition-colors">Om meg</Link>
+          <Link to="/#kontakt" onClick={(e) => handleLinkClick(e, '/#kontakt')} className="text-apple-body hover:text-rf-blue transition-colors">Kontakt</Link>
+          <Link to="/innsikt" className="text-apple-body hover:text-rf-blue transition-colors">Innsikt</Link>
         </div>
       </div>
     </footer>

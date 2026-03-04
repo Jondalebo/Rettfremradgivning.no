@@ -39,7 +39,7 @@ const Innsikt = () => {
             transition={{ duration: 0.8 }}
             className="text-center mb-12"
           >
-            <p className="text-[0.7rem] tracking-[0.15em] uppercase text-muted font-semibold mb-4">
+            <p className="text-[0.7rem] tracking-[0.15em] uppercase text-rf-blue/70 font-semibold mb-4">
               INNSIKT
             </p>
             <h1 className="text-[2.5rem] font-extrabold text-apple-dark leading-tight mb-3">
@@ -63,21 +63,21 @@ const Innsikt = () => {
                 >
                   {/* Placeholder Image */}
                   <div className="aspect-video bg-[#f0f0f0] flex items-center justify-center">
-                    <span className="text-[0.8rem] text-muted">Bilde kommer</span>
+                    <span className="text-[0.8rem] text-apple-body/60">Bilde kommer</span>
                   </div>
                   
                   {/* Content */}
                   <div className="p-5">
-                    <p className="text-[0.7rem] tracking-[0.1em] uppercase text-rf-blue font-semibold mb-2">
+                    <p className="text-[0.7rem] tracking-[0.1em] uppercase text-rf-blue/70 font-semibold mb-2">
                       {post.category}
                     </p>
                     <h2 className="text-[1.15rem] font-bold text-apple-dark mb-2 group-hover:text-rf-blue transition-colors">
                       {post.title}
                     </h2>
-                    <p className="text-[0.9rem] text-muted leading-[1.6] mb-4">
+                    <p className="text-[0.9rem] text-apple-body leading-[1.6] mb-4">
                       {post.ingress}
                     </p>
-                    <p className="text-[0.8rem] text-apple-dark/40">
+                    <p className="text-[0.8rem] text-apple-body/50">
                       {post.date}
                     </p>
                   </div>

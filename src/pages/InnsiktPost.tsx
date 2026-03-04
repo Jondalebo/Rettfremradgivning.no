@@ -47,14 +47,14 @@ const InnsiktPost = () => {
             transition={{ duration: 0.8 }}
             className="mb-8"
           >
-            <p className="text-[0.7rem] tracking-[0.1em] uppercase text-rf-blue font-semibold mb-2">
+            <p className="text-[0.7rem] tracking-[0.1em] uppercase text-rf-blue/70 font-semibold mb-2">
               {post.category}
             </p>
             <h1 className="text-[2.5rem] font-extrabold text-apple-dark leading-tight mb-3">
               {post.title}
             </h1>
             <div className="w-12 h-[2px] bg-rf-blue mt-3 mb-4" />
-            <p className="text-[0.8rem] text-muted">
+            <p className="text-[0.8rem] text-apple-body/60">
               {post.date}
             </p>
           </motion.div>
@@ -66,7 +66,7 @@ const InnsiktPost = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="bg-[#f5f5f5] rounded-lg p-12 text-center mb-12"
           >
-            <p className="text-[1rem] text-muted">
+            <p className="text-[1rem] text-apple-body/70">
               Innhold publiseres snart.
             </p>
           </motion.div>
