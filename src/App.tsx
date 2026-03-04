@@ -1,12 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, Phone, Mail, ArrowRight } from 'lucide-react';
+import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import Innsikt from './pages/Innsikt';
 
 // --- Components ---
+
+const ScrollToTop = () => {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const id = hash.replace('#', '');
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      window.scrollTo(0, 0);
+    }
+  }, [pathname, hash]);
+
+  return null;
+};
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -15,59 +36,73 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Tjenester', href: '#tjenester' },
-    { name: 'Om meg', href: '#om-meg' },
-    { name: 'Kontakt', href: '#kontakt' },
+    { name: 'Tjenester', href: '/#tjenester' },
+    { name: 'Innsikt', href: '/innsikt' },
+    { name: 'Om meg', href: '/#om-meg' },
+    { name: 'Kontakt', href: '/#kontakt' },
   ];
 
-  const handleBookClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    const contactSection = document.querySelector('#kontakt') as HTMLElement;
-    if (contactSection) {
-      const sectionTop = contactSection.offsetTop;
-      const sectionHeight = contactSection.offsetHeight;
-      const viewportHeight = window.innerHeight;
-      const offset = sectionTop - (viewportHeight / 2 - sectionHeight / 2) - 40;
-      window.scrollTo({
-        top: offset,
-        behavior: 'smooth'
-      });
+  const handleLinkClick = (e: React.MouseEvent, href: string) => {
+    if (href.startsWith('/#')) {
+      const id = href.substring(2);
+      if (location.pathname === '/') {
+        e.preventDefault();
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
     }
+    setIsMobileMenuOpen(false);
+  };
+
+  const handleBookClick = (e: React.MouseEvent) => {
+    if (location.pathname === '/') {
+      e.preventDefault();
+      const contactSection = document.querySelector('#kontakt') as HTMLElement;
+      if (contactSection) {
+        const sectionTop = contactSection.offsetTop;
+        const sectionHeight = contactSection.offsetHeight;
+        const viewportHeight = window.innerHeight;
+        const offset = sectionTop - (viewportHeight / 2 - sectionHeight / 2) - 40;
+        window.scrollTo({
+          top: offset,
+          behavior: 'smooth'
+        });
+      }
+    }
+    setIsMobileMenuOpen(false);
   };
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled ? 'glass py-4' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 md:px-12 flex justify-between items-center">
-        <div className="flex items-center gap-2">
+        <Link to="/" className="flex items-center gap-2">
           <div className="w-8 h-8 bg-rf-blue rounded-sm flex items-center justify-center">
             {/* Plain blue square as requested */}
           </div>
           <span className="font-semibold text-lg tracking-tight hidden sm:block">Rett Frem Rådgivning</span>
-        </div>
+        </Link>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a 
+            <Link 
               key={link.name} 
-              href={link.href} 
-              onClick={(e) => {
-                if (link.href === '#kontakt') {
-                  handleBookClick(e);
-                }
-              }}
+              to={link.href} 
+              onClick={(e) => handleLinkClick(e, link.href)}
               className="text-sm font-medium hover:text-rf-blue transition-colors"
             >
               {link.name}
-            </a>
+            </Link>
           ))}
-          <a 
-            href="#kontakt" 
+          <Link 
+            to="/#kontakt" 
             onClick={handleBookClick}
             className="btn-primary !px-5 !py-2 text-sm"
           >
             Book en samtale
-          </a>
+          </Link>
         </div>
 
         {/* Mobile Toggle */}
@@ -86,30 +121,22 @@ const Navbar = () => {
             className="absolute top-full left-0 right-0 bg-white border-b border-black/5 p-6 flex flex-col gap-4 md:hidden"
           >
             {navLinks.map((link) => (
-              <a 
+              <Link 
                 key={link.name} 
-                href={link.href} 
-                onClick={(e) => {
-                  setIsMobileMenuOpen(false);
-                  if (link.href === '#kontakt') {
-                    handleBookClick(e);
-                  }
-                }}
+                to={link.href} 
+                onClick={(e) => handleLinkClick(e, link.href)}
                 className="text-lg font-medium py-2"
               >
                 {link.name}
-              </a>
+              </Link>
             ))}
-            <a 
-              href="#kontakt" 
-              onClick={(e) => {
-                setIsMobileMenuOpen(false);
-                handleBookClick(e);
-              }}
-              className="btn-primary !rounded-xl"
+            <Link 
+              to="/#kontakt" 
+              onClick={handleBookClick}
+              className="btn-primary !rounded-xl text-center"
             >
               Book en samtale
-            </a>
+            </Link>
           </motion.div>
         )}
       </AnimatePresence>
@@ -477,6 +504,21 @@ const Contact = () => {
 };
 
 const Footer = () => {
+  const location = useLocation();
+
+  const handleLinkClick = (e: React.MouseEvent, href: string) => {
+    if (href.startsWith('/#')) {
+      const id = href.substring(2);
+      if (location.pathname === '/') {
+        e.preventDefault();
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    }
+  };
+
   return (
     <footer className="py-12 px-6 border-t border-black/5 bg-white">
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
@@ -488,26 +530,41 @@ const Footer = () => {
           © {new Date().getFullYear()} Rett Frem Rådgivning. Alle rettigheter reservert.
         </div>
         <div className="flex gap-6 text-sm font-medium">
-          <a href="#tjenester" className="hover:text-rf-blue transition-colors">Tjenester</a>
-          <a href="#om-meg" className="hover:text-rf-blue transition-colors">Om meg</a>
-          <a href="#kontakt" className="hover:text-rf-blue transition-colors">Kontakt</a>
+          <Link to="/#tjenester" onClick={(e) => handleLinkClick(e, '/#tjenester')} className="hover:text-rf-blue transition-colors">Tjenester</Link>
+          <Link to="/innsikt" className="hover:text-rf-blue transition-colors">Innsikt</Link>
+          <Link to="/#om-meg" onClick={(e) => handleLinkClick(e, '/#om-meg')} className="hover:text-rf-blue transition-colors">Om meg</Link>
+          <Link to="/#kontakt" onClick={(e) => handleLinkClick(e, '/#kontakt')} className="hover:text-rf-blue transition-colors">Kontakt</Link>
         </div>
       </div>
     </footer>
   );
 };
 
+const Home = () => {
+  return (
+    <>
+      <Hero />
+      <Services />
+      <About />
+      <Contact />
+    </>
+  );
+};
+
 export default function App() {
   return (
-    <div className="selection:bg-rf-blue/10 selection:text-rf-blue">
-      <Navbar />
-      <main>
-        <Hero />
-        <Services />
-        <About />
-        <Contact />
-      </main>
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <ScrollToTop />
+      <div className="selection:bg-rf-blue/10 selection:text-rf-blue">
+        <Navbar />
+        <main>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/innsikt" element={<Innsikt />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 }
