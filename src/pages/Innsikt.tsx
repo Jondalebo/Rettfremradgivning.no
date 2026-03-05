@@ -42,7 +42,7 @@ const Innsikt = () => {
             <p className="text-[0.7rem] tracking-[0.15em] uppercase text-rf-blue/70 font-semibold mb-4">
               INNSIKT
             </p>
-            <h1 className="text-[2.5rem] font-extrabold text-apple-dark leading-tight mb-3">
+            <h1 className="font-serif text-[2.5rem] font-extrabold text-apple-dark leading-tight mb-3">
               Perspektiver på ledelse og organisasjon
             </h1>
             <div className="w-12 h-[2px] bg-rf-blue mt-3 mb-12 mx-auto" />

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, Phone, Mail, ArrowRight } from 'lucide-react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
@@ -23,6 +23,7 @@ const ScrollToTop = () => {
 const useActiveSection = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const location = useLocation();
+  const ratios = useRef<Record<string, number>>({});
 
   useEffect(() => {
     if (location.pathname !== '/') {
@@ -35,41 +36,51 @@ const useActiveSection = () => {
     const observerOptions = {
       root: null,
       rootMargin: '-40% 0px -40% 0px',
-      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5],
+      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0],
+    };
+
+    const updateActiveSection = () => {
+      if (window.scrollY < 10) {
+        setActiveSection('hero');
+        return;
+      }
+
+      let maxRatio = 0;
+      let winner = 'hero';
+
+      for (const id in ratios.current) {
+        const ratio = ratios.current[id];
+        if (ratio > maxRatio) {
+          maxRatio = ratio;
+          winner = id;
+        }
+      }
+
+      if (maxRatio > 0) {
+        setActiveSection(winner);
+      }
     };
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      console.log('--- Intersection Update ---');
       entries.forEach(entry => {
-        if (entry.intersectionRatio > 0 || entry.isIntersecting) {
-          console.log(`Section: ${entry.target.id.padEnd(10)} | Ratio: ${entry.intersectionRatio.toFixed(4)} | Intersecting: ${entry.isIntersecting}`);
-        }
+        ratios.current[entry.target.id] = entry.isIntersecting ? entry.intersectionRatio : 0;
       });
-
-      const intersectingEntries = entries.filter(entry => entry.isIntersecting);
-      
-      if (intersectingEntries.length > 0) {
-        const mostIntersecting = intersectingEntries.reduce((prev, current) => 
-          (prev.intersectionRatio > current.intersectionRatio) ? prev : current
-        );
-        console.log(`%cWINNER (Observer): ${mostIntersecting.target.id}`, 'color: #003366; font-weight: bold; background: #e0f2fe; padding: 2px 5px; border-radius: 3px;');
-        setActiveSection(mostIntersecting.target.id);
-      }
+      updateActiveSection();
     };
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);
 
     sectionIds.forEach((id) => {
       const element = document.getElementById(id);
-      if (element) observer.observe(element);
+      if (element) {
+        observer.observe(element);
+        ratios.current[id] = 0;
+      }
     });
 
     const handleScroll = () => {
-      if (window.scrollY < 50) {
-        if (activeSection !== 'hero') {
-          console.log('%cFORCING HERO (Scroll < 50)', 'color: #059669; font-weight: bold;');
-          setActiveSection('hero');
-        }
+      if (window.scrollY < 10) {
+        setActiveSection('hero');
       }
     };
 
@@ -266,7 +277,7 @@ const Hero = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h1 className="text-[2.5rem] md:text-[3.5rem] lg:text-[3.75rem] font-bold text-apple-dark leading-[1.15] tracking-tight text-left">
+            <h1 className="font-serif text-[2.5rem] md:text-[3.5rem] lg:text-[3.75rem] font-bold text-apple-dark leading-[1.15] tracking-tight text-left">
               De beste beslutningene <br />
               tas <span className="text-rf-blue text-[1.12em]">Ikke</span> alene
             </h1>
@@ -335,7 +346,7 @@ const Services = () => {
           <p className="text-[0.7rem] tracking-[0.15em] uppercase text-rf-blue/70 font-semibold mb-4 text-center">
             TJENESTE
           </p>
-          <h2 className="text-[2.5rem] font-extrabold text-apple-dark leading-tight text-center mb-[0.5rem]">
+          <h2 className="font-serif text-[2.5rem] font-extrabold text-apple-dark leading-tight text-center mb-[0.5rem]">
             Langsiktig beslutningsstøtte
           </h2>
           <div className="w-12 h-[2px] bg-rf-blue mt-3 mb-[0.75rem] mx-auto" />
@@ -419,7 +430,7 @@ const About = () => {
           <p className="text-[0.7rem] tracking-[0.15em] uppercase text-rf-blue/70 font-semibold mb-4">
             OM MEG
           </p>
-          <h2 className="text-[2rem] font-extrabold text-apple-dark leading-tight mb-2">
+          <h2 className="font-serif text-[2rem] font-extrabold text-apple-dark leading-tight mb-2">
             Jon Martin Hovd Dalebø
           </h2>
           <div className="w-12 h-[2px] bg-rf-blue mt-3 mb-3 mx-auto" />
@@ -510,7 +521,7 @@ const Contact = () => {
             className="card flex flex-col justify-center !p-8 lg:!p-12"
           >
             <div className="mb-10">
-              <h2 className="heading-lg mb-4 text-apple-dark">Ta kontakt</h2>
+              <h2 className="font-serif heading-lg mb-4 text-apple-dark">Ta kontakt</h2>
               <p className="text-lg text-apple-body leading-relaxed max-w-md">
                 Ønsker du en uforpliktende samtale om en konkret situasjon? Ta kontakt.
               </p>
