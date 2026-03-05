@@ -4,6 +4,8 @@ import { Menu, X, Phone, Mail, ArrowRight } from 'lucide-react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import Innsikt from './pages/Innsikt';
 import InnsiktPost from './pages/InnsiktPost';
+import Losninger from './pages/Losninger';
+import { Navigate } from 'react-router-dom';
 
 // --- Components ---
 
@@ -112,7 +114,7 @@ const Navbar = () => {
     { name: 'Tjeneste', href: '/#tjeneste' },
     { name: 'Om meg', href: '/#om-meg' },
     { name: 'Kontakt', href: '/#kontakt' },
-    { name: 'Innsikt', href: '/innsikt' },
+    { name: 'Løsninger', href: '/losninger' },
   ];
 
   const handleLinkClick = (e: React.MouseEvent, href: string) => {
@@ -265,9 +267,19 @@ const Hero = () => {
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center pt-20 pb-12 overflow-hidden">
-      {/* Abstract Background Element */}
-      <div className="absolute top-1/4 -right-20 w-96 h-96 bg-rf-blue-light rounded-full blur-3xl opacity-50 -z-10" />
-      <div className="absolute bottom-1/4 -left-20 w-72 h-72 bg-rf-blue-light rounded-full blur-3xl opacity-30 -z-10" />
+      {/* Subtle grid pattern */}
+      <div 
+        className="absolute inset-0 -z-10 opacity-[0.025]"
+        style={{
+          backgroundImage: `linear-gradient(#003366 1px, transparent 1px), 
+                            linear-gradient(90deg, #003366 1px, transparent 1px)`,
+          backgroundSize: '60px 60px'
+        }}
+      />
+      {/* Subtle blue glow – top right only */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] 
+           bg-rf-blue-light rounded-full blur-3xl opacity-40 -z-10 
+           translate-x-1/3 -translate-y-1/4" />
 
       <div className="max-w-6xl mx-auto px-6 md:px-12 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-[1.2fr_1fr] gap-12 items-center">
@@ -277,14 +289,38 @@ const Hero = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            <h1 className="font-serif text-[2.5rem] md:text-[3.5rem] lg:text-[3.75rem] font-bold text-apple-dark leading-[1.15] tracking-tight text-left">
+            <h1 className="text-[2.5rem] md:text-[3.5rem] lg:text-[3.75rem] font-bold text-apple-dark leading-[1.15] tracking-tight text-left">
               De beste beslutningene <br />
-              tas <span className="text-rf-blue text-[1.12em]">Ikke</span> alene
+              tas <span className="text-rf-blue text-[1.12em] italic">Ikke</span> alene
             </h1>
-            <div className="w-12 h-[2px] bg-rf-blue my-4" />
-            <p className="text-base text-apple-body max-w-[560px] leading-[1.6]">
-              Ekstern beslutningsstøtte for ledere som står i krevende, uoversiktlige eller strategisk viktige situasjoner.
+            <div className="w-12 h-[2px] bg-rf-blue my-5" />
+            <p className="text-[1.05rem] text-apple-body max-w-[480px] leading-[1.65] mt-5">
+              Komplekse organisasjoner skaper komplekse utfordringer. 
+              Løsningen krever oversikt over helheten – ikke bare symptomet.
             </p>
+            <Link
+              to="/losninger"
+              className="group mt-8 flex items-start gap-4 p-5 rounded-[14px]
+              bg-rf-blue-light border border-rf-blue/10
+              hover:border-rf-blue/25 hover:bg-rf-blue/[0.07]
+              transition-all duration-300"
+            >
+              <div className="mt-0.5 w-8 h-8 rounded-full bg-rf-blue/10 
+                 flex items-center justify-center shrink-0
+                 group-hover:bg-rf-blue/20 transition-colors">
+                <ArrowRight size={15} className="text-rf-blue" />
+              </div>
+              <div>
+                <p className="text-[0.78rem] font-bold tracking-[0.08em] uppercase 
+                   text-rf-blue mb-1">
+                  Har du oversikt?
+                </p>
+                <p className="text-[0.95rem] font-semibold text-apple-dark 
+                   group-hover:text-rf-blue transition-colors leading-snug">
+                  Se løsninger på vanlige lederutfordringer
+                </p>
+              </div>
+            </Link>
           </motion.div>
 
           {/* Right Column */}
@@ -292,8 +328,12 @@ const Hero = () => {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-            className="flex flex-col lg:mt-20"
+            className="flex flex-col justify-center"
           >
+            <p className="text-[0.75rem] font-semibold tracking-[0.12em] uppercase 
+               text-rf-blue/60 mb-5">
+              Klar for en samtale?
+            </p>
             <div className="flex flex-col gap-5">
               <a 
                 href="#kontakt" 
@@ -346,7 +386,7 @@ const Services = () => {
           <p className="text-[0.7rem] tracking-[0.15em] uppercase text-rf-blue/70 font-semibold mb-4 text-center">
             TJENESTE
           </p>
-          <h2 className="font-serif text-[2.5rem] font-extrabold text-apple-dark leading-tight text-center mb-[0.5rem]">
+          <h2 className="text-[2.5rem] font-extrabold text-apple-dark leading-tight text-center mb-[0.5rem]">
             Langsiktig beslutningsstøtte
           </h2>
           <div className="w-12 h-[2px] bg-rf-blue mt-3 mb-[0.75rem] mx-auto" />
@@ -430,7 +470,7 @@ const About = () => {
           <p className="text-[0.7rem] tracking-[0.15em] uppercase text-rf-blue/70 font-semibold mb-4">
             OM MEG
           </p>
-          <h2 className="font-serif text-[2rem] font-extrabold text-apple-dark leading-tight mb-2">
+          <h2 className="text-[2rem] font-extrabold text-apple-dark leading-tight mb-2">
             Jon Martin Hovd Dalebø
           </h2>
           <div className="w-12 h-[2px] bg-rf-blue mt-3 mb-3 mx-auto" />
@@ -521,7 +561,7 @@ const Contact = () => {
             className="card flex flex-col justify-center !p-8 lg:!p-12"
           >
             <div className="mb-10">
-              <h2 className="font-serif heading-lg mb-4 text-apple-dark">Ta kontakt</h2>
+              <h2 className="heading-lg mb-4 text-apple-dark">Ta kontakt</h2>
               <p className="text-lg text-apple-body leading-relaxed max-w-md">
                 Ønsker du en uforpliktende samtale om en konkret situasjon? Ta kontakt.
               </p>
@@ -650,7 +690,9 @@ const Footer = () => {
           <Link to="/#tjeneste" onClick={(e) => handleLinkClick(e, '/#tjeneste')} className="text-apple-body hover:text-rf-blue transition-colors">Tjeneste</Link>
           <Link to="/#om-meg" onClick={(e) => handleLinkClick(e, '/#om-meg')} className="text-apple-body hover:text-rf-blue transition-colors">Om meg</Link>
           <Link to="/#kontakt" onClick={(e) => handleLinkClick(e, '/#kontakt')} className="text-apple-body hover:text-rf-blue transition-colors">Kontakt</Link>
-          <Link to="/innsikt" className="text-apple-body hover:text-rf-blue transition-colors">Innsikt</Link>
+          <Link to="/losninger" className="text-apple-body hover:text-rf-blue transition-colors">
+            Løsninger
+          </Link>
         </div>
       </div>
     </footer>
@@ -679,6 +721,8 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/innsikt" element={<Innsikt />} />
             <Route path="/innsikt/:id" element={<InnsiktPost />} />
+            <Route path="/losninger" element={<Losninger />} />
+            <Route path="/losninger/:id" element={<Navigate to="/losninger" replace />} />
           </Routes>
         </main>
         <Footer />

@@ -50,7 +50,7 @@ const InnsiktPost = () => {
             <p className="text-[0.7rem] tracking-[0.1em] uppercase text-rf-blue/70 font-semibold mb-2">
               {post.category}
             </p>
-            <h1 className="font-serif text-[2.5rem] font-extrabold text-apple-dark leading-tight mb-3">
+            <h1 className="text-[2.5rem] font-extrabold text-apple-dark leading-tight mb-3">
               {post.title}
             </h1>
             <div className="w-12 h-[2px] bg-rf-blue mt-3 mb-4" />
