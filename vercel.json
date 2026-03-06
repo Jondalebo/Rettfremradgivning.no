@@ -9,7 +9,7 @@
           "value": ".*(googlebot|bingbot|yandex|baiduspider|facebookexternalhit|twitterbot|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest|slackbot|vkShare|W3C_Validator|whatsapp|prerender).*"
         }
       ],
-      "destination": "https://service.prerender.io/https://www.rettfremradgivning.no/$1"
+      "destination": "https://service.prerender.io/$1"
     },
     {
       "source": "/(.*)",
@@ -22,7 +22,7 @@
       "headers": [
         {
           "key": "X-Prerender-Token",
-          "value": "fuHEz5CqLhvBWHwbnldn"
+          "value": "PUODrYRpt2sWXxjHRuEW"
         }
       ]
     }
