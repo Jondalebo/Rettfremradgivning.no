@@ -37,9 +37,9 @@ Ingen standardpakker. Ingen generiske modeller.
 - Endringsledelse og implementeringsrisiko
 
 ## Innhold
-- Hovedside: https://www.rettfremradgivning.no/
+- Hovedside: https://rettfremradgivning.no/
 - Innsikt (artikler og perspektiver): 
-  https://www.rettfremradgivning.no/innsikt
+  https://rettfremradgivning.no/innsikt
 
 ## Kontakt
 - Telefon: 955 33 28 46
