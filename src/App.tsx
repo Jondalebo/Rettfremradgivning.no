@@ -203,7 +203,12 @@ const Navbar = () => {
         </div>
 
         {/* Mobile Toggle */}
-        <button className="md:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+        <button 
+          className="md:hidden" 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label={isMobileMenuOpen ? 'Lukk meny' : 'Åpne meny'}
+          aria-expanded={isMobileMenuOpen}
+        >
           {isMobileMenuOpen ? <X /> : <Menu />}
         </button>
       </div>
@@ -339,6 +344,7 @@ const Hero = () => {
                 href="#kontakt" 
                 onClick={handleBookClick}
                 className="btn-primary !py-3 hover-lift gap-2"
+                aria-label="Book en samtale med Jon Martin Hovd Dalebø"
               >
                 Book en samtale <ArrowRight size={18} />
               </a>
