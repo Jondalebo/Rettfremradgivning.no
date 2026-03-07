@@ -5,6 +5,10 @@ import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-do
 import Innsikt from './pages/Innsikt';
 import InnsiktPost from './pages/InnsiktPost';
 import Losninger from './pages/Losninger';
+import Hjem from './pages/Hjem';
+import Tjenester from './pages/Tjenester';
+import OmMeg from './pages/OmMeg';
+import Kontakt from './pages/Kontakt';
 import { Navigate } from 'react-router-dom';
 
 // --- Components ---
@@ -33,7 +37,7 @@ const useActiveSection = () => {
       return;
     }
 
-    const sectionIds = ['hero', 'tjeneste', 'om-meg', 'kontakt'];
+    const sectionIds = ['hero'];
     
     const observerOptions = {
       root: null,
@@ -111,41 +115,25 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Tjeneste', href: '/#tjeneste' },
-    { name: 'Om meg', href: '/#om-meg' },
-    { name: 'Kontakt', href: '/#kontakt' },
+    { name: 'Hjem', href: '/' },
+    { name: 'Tjenester', href: '/tjenester' },
+    { name: 'Om meg', href: '/om-meg' },
     { name: 'Løsninger', href: '/losninger' },
+    { name: 'Kontakt', href: '/kontakt' },
   ];
 
   const handleLinkClick = (e: React.MouseEvent, href: string) => {
-    if (href.startsWith('/#')) {
-      const id = href.substring(2);
-      if (location.pathname === '/') {
-        e.preventDefault();
-        const element = document.getElementById(id);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }
+    if (href === '/#hero' && location.pathname === '/') {
+      e.preventDefault();
+      const element = document.getElementById('hero');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
       }
     }
     setIsMobileMenuOpen(false);
   };
 
-  const handleBookClick = (e: React.MouseEvent) => {
-    if (location.pathname === '/') {
-      e.preventDefault();
-      const contactSection = document.querySelector('#kontakt') as HTMLElement;
-      if (contactSection) {
-        const sectionTop = contactSection.offsetTop;
-        const sectionHeight = contactSection.offsetHeight;
-        const viewportHeight = window.innerHeight;
-        const offset = sectionTop - (viewportHeight / 2 - sectionHeight / 2) - 40;
-        window.scrollTo({
-          top: offset,
-          behavior: 'smooth'
-        });
-      }
-    }
+  const handleBookClick = () => {
     setIsMobileMenuOpen(false);
   };
 
@@ -194,7 +182,7 @@ const Navbar = () => {
             );
           })}
           <Link 
-            to="/#kontakt" 
+            to="/kontakt" 
             onClick={handleBookClick}
             className="btn-primary !px-5 !py-2 text-sm"
           >
@@ -241,7 +229,7 @@ const Navbar = () => {
               );
             })}
             <Link 
-              to="/#kontakt" 
+              to="/kontakt" 
               onClick={handleBookClick}
               className="btn-primary !rounded-xl text-center"
             >
@@ -693,9 +681,9 @@ const Footer = () => {
           © {new Date().getFullYear()} Rett Frem Rådgivning. Alle rettigheter reservert.
         </div>
         <div className="flex gap-6 text-sm font-medium">
-          <Link to="/#tjeneste" onClick={(e) => handleLinkClick(e, '/#tjeneste')} className="text-apple-body hover:text-rf-blue transition-colors">Tjeneste</Link>
-          <Link to="/#om-meg" onClick={(e) => handleLinkClick(e, '/#om-meg')} className="text-apple-body hover:text-rf-blue transition-colors">Om meg</Link>
-          <Link to="/#kontakt" onClick={(e) => handleLinkClick(e, '/#kontakt')} className="text-apple-body hover:text-rf-blue transition-colors">Kontakt</Link>
+          <Link to="/tjenester" className="text-apple-body hover:text-rf-blue transition-colors">Tjenester</Link>
+          <Link to="/om-meg" className="text-apple-body hover:text-rf-blue transition-colors">Om meg</Link>
+          <Link to="/kontakt" className="text-apple-body hover:text-rf-blue transition-colors">Kontakt</Link>
           <Link to="/losninger" className="text-apple-body hover:text-rf-blue transition-colors">
             Løsninger
           </Link>
@@ -724,11 +712,14 @@ export default function App() {
         <Navbar />
         <main>
           <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/innsikt" element={<Innsikt />} />
-            <Route path="/innsikt/:id" element={<InnsiktPost />} />
+            <Route path="/" element={<Hjem />} />
+            <Route path="/tjenester" element={<Tjenester />} />
+            <Route path="/om-meg" element={<OmMeg />} />
+            <Route path="/kontakt" element={<Kontakt />} />
             <Route path="/losninger" element={<Losninger />} />
             <Route path="/losninger/:id" element={<Navigate to="/losninger" replace />} />
+            <Route path="/innsikt" element={<Innsikt />} />
+            <Route path="/innsikt/:id" element={<InnsiktPost />} />
           </Routes>
         </main>
         <Footer />
