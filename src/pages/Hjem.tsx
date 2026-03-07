@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, Users, Lightbulb, Phone, Mail } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 interface Seksjonskort {
   ikon: React.ReactNode;
@@ -34,6 +35,11 @@ const seksjonskort: Seksjonskort[] = [
 const Hjem: React.FC = () => {
   return (
     <div className="pt-20">
+      <Helmet>
+        <title>Rett Frem Rådgivning – Ekstern beslutningsstøtte for ledere</title>
+        <meta name="description" content="Ekstern sparringspartner for ledere i komplekse beslutninger. Langsiktig beslutningsstøtte som gir oversikt over helheten – ikke bare symptomet." />
+        <link rel="canonical" href="https://www.rettfremradgivning.no/" />
+      </Helmet>
 
       {/* HERO */}
       <section className="min-h-[calc(100vh-5rem)] flex items-center px-6 md:px-12 lg:px-24 bg-white">

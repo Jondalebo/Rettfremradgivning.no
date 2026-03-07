@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 interface Kompetanseomrade {
   tittel: string;
@@ -26,6 +27,11 @@ const kompetanseomrader: Kompetanseomrade[] = [
 const OmMeg: React.FC = () => {
   return (
     <div className="pt-20">
+      <Helmet>
+        <title>Om meg – Jon Martin Hovd Dalebø | Rett Frem Rådgivning</title>
+        <meta name="description" content="Jon Martin Hovd Dalebø – psykologiutdanning med fordypning i organisasjonspsykologi og bred erfaring fra arbeid med ledere i krevende situasjoner." />
+        <link rel="canonical" href="https://www.rettfremradgivning.no/om-meg" />
+      </Helmet>
       <section className="pt-10 pb-20 px-6 md:px-12 lg:px-24 bg-white">
         <div className="max-w-[900px] mx-auto">
 

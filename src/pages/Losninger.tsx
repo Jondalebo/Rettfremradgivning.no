@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 
 const losninger = [
   {
@@ -44,6 +45,11 @@ const losninger = [
 const Losninger = () => {
   return (
     <div className="pt-20">
+      <Helmet>
+        <title>Løsninger på lederutfordringer | Rett Frem Rådgivning</title>
+        <meta name="description" content="Konkrete perspektiver på utfordringer mange ledere står i: beslutninger som drøyer, rutiner som ikke følges, endringer som ikke fester seg." />
+        <link rel="canonical" href="https://www.rettfremradgivning.no/losninger" />
+      </Helmet>
       <section className="py-20 px-6 md:px-12 lg:px-24 bg-white">
         <div className="max-w-[900px] mx-auto">
 

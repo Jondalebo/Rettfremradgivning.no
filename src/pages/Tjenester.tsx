@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowRight, Clock, Calendar, DollarSign } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 interface Fase {
   nummer: string;
@@ -35,6 +36,11 @@ const faser: Fase[] = [
 const Tjenester: React.FC = () => {
   return (
     <div className="pt-20">
+      <Helmet>
+        <title>Tjenester – Langsiktig beslutningsstøtte | Rett Frem Rådgivning</title>
+        <meta name="description" content="Langsiktig beslutningsstøtte og akutt beslutningsbistand for ledere. Strukturert prosess over 4–6 uker med ukentlige møter og fast pris." />
+        <link rel="canonical" href="https://www.rettfremradgivning.no/tjenester" />
+      </Helmet>
 
       <section className="pt-10 pb-20 px-6 md:px-12 lg:px-24 bg-white">
         <div className="max-w-[900px] mx-auto">

@@ -2,10 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Phone, Mail, ArrowRight } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 const Kontakt: React.FC = () => {
   return (
     <div className="pt-20">
+      <Helmet>
+        <title>Ta kontakt – Ring 955 33 28 46 | Rett Frem Rådgivning</title>
+        <meta name="description" content="Ta kontakt med Jon Martin Hovd Dalebø for en uforpliktende samtale. Ring 955 33 28 46 eller send e-post til post@rettfremradgivning.no." />
+        <link rel="canonical" href="https://www.rettfremradgivning.no/kontakt" />
+      </Helmet>
       <section className="min-h-[calc(100vh-5rem)] flex items-center 
         py-10 px-6 md:px-12 lg:px-24 bg-white">
         <div className="max-w-[900px] mx-auto w-full">
