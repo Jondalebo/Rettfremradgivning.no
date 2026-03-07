@@ -140,12 +140,12 @@ const Losninger = () => {
             </p>
             
             <a
-              href="tel:955332846"
+              href="tel:95332846"
               className="inline-flex items-center gap-3 bg-rf-blue text-white 
               px-8 py-4 rounded-full font-semibold text-[0.95rem]
               hover:opacity-90 transition-opacity"
             >
-              Ring meg på 955 33 28 46
+              Ring meg på 95 33 28 46
             </a>
           </motion.div>
 

@@ -103,13 +103,13 @@ const Hjem: React.FC = () => {
 
               <div className="pt-4 border-t border-black/5 flex flex-col gap-3">
                 <a
-                  href="tel:955332846"
+                  href="tel:95332846"
                   className="flex items-center gap-2.5 text-[0.88rem] font-medium 
                   text-apple-body hover:text-rf-blue transition-colors group"
                 >
                   <Phone size={15} className="text-rf-blue/60 group-hover:text-rf-blue 
                     transition-colors shrink-0" />
-                  955 33 28 46
+                  95 33 28 46
                 </a>
                 <a
                   href="mailto:post@rettfremradgivning.no"
@@ -204,12 +204,12 @@ const Hjem: React.FC = () => {
             Ring meg – det koster ingenting å snakke.
           </p>
           <a
-            href="tel:955332846"
+            href="tel:95332846"
             className="inline-flex items-center gap-3 bg-rf-blue text-white
             px-8 py-4 rounded-full font-semibold text-[0.95rem]
             hover:opacity-90 transition-opacity"
           >
-            Ring 955 33 28 46
+            Ring 95 33 28 46
           </a>
         </div>
       </section>

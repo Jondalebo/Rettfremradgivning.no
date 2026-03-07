@@ -1,14 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { lazy, Suspense, useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, Phone, Mail, ArrowRight } from 'lucide-react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
-import Innsikt from './pages/Innsikt';
-import InnsiktPost from './pages/InnsiktPost';
-import Losninger from './pages/Losninger';
-import Hjem from './pages/Hjem';
-import Tjenester from './pages/Tjenester';
-import OmMeg from './pages/OmMeg';
-import Kontakt from './pages/Kontakt';
+
+const Innsikt = lazy(() => import('./pages/Innsikt'));
+const InnsiktPost = lazy(() => import('./pages/InnsiktPost'));
+const Losninger = lazy(() => import('./pages/Losninger'));
+const Hjem = lazy(() => import('./pages/Hjem'));
+const Tjenester = lazy(() => import('./pages/Tjenester'));
+const OmMeg = lazy(() => import('./pages/OmMeg'));
+const Kontakt = lazy(() => import('./pages/Kontakt'));
+
 import { Navigate } from 'react-router-dom';
 
 // --- Components ---
@@ -199,16 +201,23 @@ export default function App() {
       <div className="selection:bg-rf-blue/10 selection:text-rf-blue">
         <Navbar />
         <main>
-          <Routes>
-            <Route path="/" element={<Hjem />} />
-            <Route path="/tjenester" element={<Tjenester />} />
-            <Route path="/om-meg" element={<OmMeg />} />
-            <Route path="/kontakt" element={<Kontakt />} />
-            <Route path="/losninger" element={<Losninger />} />
-            <Route path="/losninger/:id" element={<Navigate to="/losninger" replace />} />
-            <Route path="/innsikt" element={<Innsikt />} />
-            <Route path="/innsikt/:id" element={<InnsiktPost />} />
-          </Routes>
+          <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center">
+              <div className="w-6 h-6 border-2 border-rf-blue border-t-transparent 
+                 rounded-full animate-spin" />
+            </div>
+          }>
+            <Routes>
+              <Route path="/" element={<Hjem />} />
+              <Route path="/tjenester" element={<Tjenester />} />
+              <Route path="/om-meg" element={<OmMeg />} />
+              <Route path="/kontakt" element={<Kontakt />} />
+              <Route path="/losninger" element={<Losninger />} />
+              <Route path="/losninger/:id" element={<Navigate to="/losninger" replace />} />
+              <Route path="/innsikt" element={<Innsikt />} />
+              <Route path="/innsikt/:id" element={<InnsiktPost />} />
+            </Routes>
+          </Suspense>
         </main>
         <Footer />
       </div>

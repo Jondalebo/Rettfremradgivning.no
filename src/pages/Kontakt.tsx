@@ -8,8 +8,8 @@ const Kontakt: React.FC = () => {
   return (
     <div className="pt-20">
       <Helmet>
-        <title>Ta kontakt – Ring 955 33 28 46 | Rett Frem Rådgivning</title>
-        <meta name="description" content="Ta kontakt med Jon Martin Hovd Dalebø for en uforpliktende samtale. Ring 955 33 28 46 eller send e-post til post@rettfremradgivning.no." />
+        <title>Ta kontakt – Ring 95 33 28 46 | Rett Frem Rådgivning</title>
+        <meta name="description" content="Ta kontakt med Jon Martin Hovd Dalebø for en uforpliktende samtale. Ring 95 33 28 46 eller send e-post til post@rettfremradgivning.no." />
         <link rel="canonical" href="https://www.rettfremradgivning.no/kontakt" />
       </Helmet>
       <section className="min-h-[calc(100vh-5rem)] flex items-center 
@@ -43,7 +43,7 @@ const Kontakt: React.FC = () => {
               transition={{ duration: 0.7, delay: 0.1 }}
             >
               <a
-                href="tel:955332846"
+                href="tel:95332846"
                 className="flex flex-col items-center gap-4 bg-rf-blue text-white
                 p-8 rounded-[16px] hover:opacity-90 transition-opacity text-center w-full block"
               >
@@ -55,7 +55,7 @@ const Kontakt: React.FC = () => {
                   <p className="text-[0.75rem] font-semibold tracking-[0.1em] uppercase text-white/70 mb-1">
                     Ring meg
                   </p>
-                  <p className="text-[1.3rem] font-bold">955 33 28 46</p>
+                  <p className="text-[1.3rem] font-bold">95 33 28 46</p>
                   <p className="text-[0.78rem] text-white/60 mt-1">
                     Raskeste vei til en samtale
                   </p>

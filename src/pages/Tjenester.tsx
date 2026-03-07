@@ -161,12 +161,12 @@ const Tjenester: React.FC = () => {
             </Link>
           </div>
           <a
-            href="tel:955332846"
+            href="tel:95332846"
             className="inline-flex items-center gap-3 bg-rf-blue text-white
             px-7 py-3.5 rounded-full font-semibold text-[0.9rem]
             hover:opacity-90 transition-opacity"
           >
-            Ring 955 33 28 46
+            Ring 95 33 28 46
           </a>
         </div>
       </section>
