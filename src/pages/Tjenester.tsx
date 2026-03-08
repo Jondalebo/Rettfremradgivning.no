@@ -1,178 +1,294 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { ArrowRight, Clock, Calendar, DollarSign } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
+import { ArrowRight, Clock, Calendar, BadgeCheck, Brain, Zap } from 'lucide-react';
 
-interface Fase {
-  nummer: string;
-  tittel: string;
-  beskrivelse: string;
-}
-
-const faser: Fase[] = [
-  {
-    nummer: '01',
-    tittel: 'Forstå situasjonen din',
-    beskrivelse: 'Vi starter med å kartlegge hva som faktisk skjer – ikke hva som skulle skjedd. Mønstre, friksjonspunkter og beslutningshistorikk legges på bordet.',
-  },
-  {
-    nummer: '02',
-    tittel: 'Bygge en løsning som passer',
-    beskrivelse: 'Basert på forståelsen designer vi en tilnærming som tar hensyn til din faktiske hverdag – ikke en idealsituasjon som aldri finnes i praksis.',
-  },
-  {
-    nummer: '03',
-    tittel: 'Kontinuerlig justering',
-    beskrivelse: 'Underveis tester vi forutsetningene mot virkeligheten. Hvis noe ikke stemmer, justerer vi kursen – ikke bare rapporten.',
-  },
-  {
-    nummer: '04',
-    tittel: 'Forankre læringen',
-    beskrivelse: 'Avslutningsvis sikrer vi at innsikten lever videre i organisasjonen og ikke forsvinner når samarbeidet avsluttes.',
-  },
-];
-
-const Tjenester: React.FC = () => {
+export default function Tjenester() {
   return (
-    <div className="pt-20">
+    <div>
       <Helmet>
         <title>Tjenester – Langsiktig beslutningsstøtte | Rett Frem Rådgivning</title>
-        <meta name="description" content="Langsiktig beslutningsstøtte og akutt beslutningsbistand for ledere. Strukturert prosess over 4–6 uker med ukentlige møter og fast pris." />
+        <meta name="description" content="Langsiktig beslutningsstøtte og akutt beslutningsbistand for ledere. Strukturert prosess over 6 uker med ukentlige møter og fast pris." />
         <link rel="canonical" href="https://www.rettfremradgivning.no/tjenester" />
       </Helmet>
 
-      <section className="pt-10 pb-20 px-6 md:px-12 lg:px-24 bg-white">
+      {/* ── HERO: Oversikt over begge tjenester ── */}
+      <section className="px-6 md:px-12 lg:px-24 pt-12 pb-10 bg-white">
+        <div className="max-w-[900px] mx-auto">
+          
+          <p className="text-xs font-semibold tracking-[0.12em] uppercase 
+            text-rf-blue mb-3">
+            TJENESTER
+          </p>
+          <h1 className="text-4xl md:text-5xl font-bold text-apple-dark 
+            leading-tight mb-4">
+            To måter jeg kan hjelpe deg
+          </h1>
+          <div className="w-12 h-[2px] bg-rf-blue mb-6" />
+          <p className="text-lg text-apple-body max-w-[600px] mb-10">
+            Uansett om du trenger langsiktig utvikling eller hjelp til en 
+            beslutning som ikke kan vente – jeg tilpasser meg der du er.
+          </p>
+
+          {/* Oversiktskort – begge tjenester */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            {/* Kort 1 */}
+            <a href="#langsiktig" 
+              className="group p-6 rounded-2xl border border-gray-200 
+                hover:border-rf-blue hover:shadow-[0_4px_20px_rgba(0,51,102,0.08)] 
+                transition-all duration-200 cursor-pointer">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-xl bg-rf-blue/8 
+                  flex items-center justify-center">
+                  <Brain size={20} className="text-rf-blue" />
+                </div>
+                <span className="text-xs font-semibold tracking-widest 
+                  uppercase text-rf-blue">
+                  6 uker
+                </span>
+              </div>
+              <h2 className="text-xl font-bold text-apple-dark mb-2">
+                Langsiktig beslutningsstøtte
+              </h2>
+              <p className="text-apple-body text-sm leading-relaxed mb-4">
+                Forskningsbasert metodikk som gir deg varig kompetanse – 
+                ikke bare hjelp i øyeblikket.
+              </p>
+              <div className="flex items-center gap-1 text-rf-blue 
+                text-sm font-semibold group-hover:gap-2 transition-all">
+                Les mer <ArrowRight size={14} />
+              </div>
+            </a>
+
+            {/* Kort 2 */}
+            <a href="#akutt"
+              className="group p-6 rounded-2xl border border-gray-200 
+                hover:border-rf-blue hover:shadow-[0_4px_20px_rgba(0,51,102,0.08)] 
+                transition-all duration-200 cursor-pointer">
+              <div className="flex items-center gap-3 mb-3">
+                <div className="w-10 h-10 rounded-xl bg-rf-blue/8 
+                  flex items-center justify-center">
+                  <Zap size={20} className="text-rf-blue" />
+                </div>
+                <span className="text-xs font-semibold tracking-widest 
+                  uppercase text-rf-blue">
+                  Enkeltmøter
+                </span>
+              </div>
+              <h2 className="text-xl font-bold text-apple-dark mb-2">
+                Akutt beslutningsbistand
+              </h2>
+              <p className="text-apple-body text-sm leading-relaxed mb-4">
+                Når beslutningen ikke kan vente. Jeg bruker metodikken 
+                direkte inn i situasjonen du står i – nå.
+              </p>
+              <div className="flex items-center gap-1 text-rf-blue 
+                text-sm font-semibold group-hover:gap-2 transition-all">
+                Les mer <ArrowRight size={14} />
+              </div>
+            </a>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ── SEKSJON 1: Langsiktig beslutningsstøtte ── */}
+      <section id="langsiktig" 
+        className="px-6 md:px-12 lg:px-24 py-16 bg-[#f8f9fb]">
         <div className="max-w-[900px] mx-auto">
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="mb-14"
-          >
-            <p className="text-[0.7rem] tracking-[0.15em] uppercase text-rf-blue/70 font-semibold mb-4">
-              TJENESTER
-            </p>
-            <h1 className="text-[2.5rem] font-extrabold text-apple-dark leading-tight mb-4">
-              Langsiktig beslutningsstøtte
-            </h1>
-            <div className="w-12 h-[2px] bg-rf-blue mb-6" />
-            <p className="text-[1.05rem] text-apple-body max-w-[600px] leading-[1.65]">
-              For ledere som trenger mer hen et godt råd – de trenger en systematisk
-              prosess som gir grunnlag for bedre beslutninger over tid.
-            </p>
-          </motion.div>
+          <p className="text-xs font-semibold tracking-[0.12em] uppercase 
+            text-rf-blue mb-3">
+            LANGSIKTIG BESLUTNINGSSTØTTE
+          </p>
+          <h2 className="text-3xl md:text-4xl font-bold text-apple-dark 
+            leading-tight mb-3">
+            Bygg beslutningskompetanse som holder
+          </h2>
+          <div className="w-12 h-[2px] bg-rf-blue mb-6" />
 
-          {/* FASER */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-10">
-            {faser.map((fase, index) => (
-              <motion.div
-                key={fase.nummer}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.08 }}
-                className="bg-white rounded-[14px] p-7
-                shadow-[0_2px_12px_rgba(0,0,0,0.06)]
-                border border-black/[0.04]"
-              >
-                <p className="text-[0.7rem] font-bold tracking-[0.15em] uppercase text-rf-blue/50 mb-3">
-                  {fase.nummer}
-                </p>
-                <h3 className="text-[1.1rem] font-bold text-apple-dark mb-3">
-                  {fase.tittel}
-                </h3>
-                <p className="text-[0.88rem] text-apple-body leading-[1.65]">
-                  {fase.beskrivelse}
-                </p>
-              </motion.div>
-            ))}
+          {/* To-kolonne: tekst + fargeflate */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+            <div>
+              <p className="text-apple-body leading-relaxed mb-4">
+                Et strukturert 6-ukers forløp hvor vi først danner en 
+                fullstendig oversikt over din lederrolle – bakgrunn, 
+                arbeidshverdag og beslutningshistorikk.
+              </p>
+              <p className="text-apple-body leading-relaxed mb-4">
+                Deretter gjennomfører vi ukentlige 90-minutters møter 
+                hvor du lærer en forskningsbasert metodikk for å ta 
+                bedre beslutninger – kontinuerlig tilpasset din situasjon.
+              </p>
+              <p className="text-apple-body leading-relaxed">
+                Målet er ikke bare å hjelpe deg her og nå. Det er å gi 
+                deg selvtilliten til å stå i egne beslutninger over tid – 
+                også når de er upopulære.
+              </p>
+            </div>
+
+            {/* Fargeflate – placeholder for bilde */}
+            <div className="rounded-2xl bg-gradient-to-br from-rf-blue/10 
+              to-rf-blue/20 min-h-[240px] flex items-center justify-center">
+              <p className="text-rf-blue/40 text-sm font-medium">
+                [ Bilde kommer ]
+              </p>
+            </div>
           </div>
 
-          {/* PRAKTISK INFO */}
-          <div className="flex flex-wrap gap-6 justify-center py-6 px-8
-            bg-rf-blue/5 rounded-[14px] border border-rf-blue/10 mb-20">
+          {/* Fasene */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-10">
             {[
-              { ikon: <Calendar size={16} />, tekst: 'Typisk varighet: 4–6 uker' },
-              { ikon: <Clock size={16} />, tekst: 'Ukentlige møter' },
-              { ikon: <DollarSign size={16} />, tekst: 'Fast pris' },
-            ].map((item) => (
-              <div key={item.tekst} className="flex items-center gap-2
-                 text-[0.85rem] font-semibold text-rf-blue">
-                {item.ikon}
-                {item.tekst}
+              { nr: '01', tittel: 'Kartlegging', tekst: 'Vi danner en fullstendig oversikt over din lederrolle, bakgrunn og beslutningshistorikk.' },
+              { nr: '02', tittel: 'Tilpasset metodikk', tekst: 'Vi designer en tilnærming basert på din faktiske hverdag – ikke en idealsituasjon som aldri finnes i praksis.' },
+              { nr: '03', tittel: 'Kontinuerlig justering', tekst: 'Underveis tester vi forutsetningene mot virkeligheten og justerer kursen – ikke bare rapporten.' },
+              { nr: '04', tittel: 'Forankret læring', tekst: 'Avslutningsvis sikrer vi at innsikten lever videre i deg – ikke forsvinner når samarbeidet avsluttes.' },
+            ].map((fase) => (
+              <div key={fase.nr} 
+                className="p-5 rounded-xl bg-white border border-gray-100 
+                  shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+                <span className="text-xs font-bold text-rf-blue/50 
+                  tracking-widest mb-2 block">
+                  {fase.nr}
+                </span>
+                <h3 className="font-bold text-apple-dark mb-1">
+                  {fase.tittel}
+                </h3>
+                <p className="text-sm text-apple-body leading-relaxed">
+                  {fase.tekst}
+                </p>
               </div>
             ))}
           </div>
 
-          {/* AKUTT BISTAND */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.35 }}
-            className="border-t border-black/5 pt-16 mb-8"
-          >
-            <p className="text-[0.7rem] tracking-[0.15em] uppercase text-apple-body/40 font-semibold mb-4">
-              NÅR BESLUTNINGEN IKKE KAN VENTE
-            </p>
-            <h2 className="text-[2rem] font-extrabold text-apple-dark leading-tight mb-4 max-w-[600px]">
-              Akutt beslutningsbistand
-            </h2>
-            <div className="w-12 h-[2px] bg-rf-blue mb-6" />
-            <p className="text-[1rem] text-apple-body leading-[1.65] max-w-[580px] mb-4">
-              Noen ganger har du ikke tid til langsiktig kompetanseheving.
-              Avgjørelsen skulle vært tatt i går, og du trenger å stå trygt
-              i valget du gjør – nå.
-            </p>
-            <p className="text-[1rem] text-apple-body leading-[1.65] max-w-[580px] mb-8">
-              I stedet for å lære deg beslutningsmetodikk, bruker jeg selv
-              teknikkene jeg har lært andre – direkte inn i situasjonen du
-              er i, for å gi deg et solid grunnlag å handle ut fra.
-            </p>
-            <Link
-              to="/kontakt"
-              className="inline-flex items-center gap-2 text-[0.95rem] font-semibold
-              text-rf-blue hover:gap-3 transition-all duration-200"
-            >
-              Ta kontakt for akutt bistand <ArrowRight size={16} />
-            </Link>
-          </motion.div>
+          {/* Praktisk info + pris */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            
+            {/* Praktisk */}
+            <div className="p-6 rounded-2xl bg-white border border-gray-100 
+              shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
+              <h3 className="font-bold text-apple-dark mb-4">Praktisk</h3>
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-3 text-sm text-apple-body">
+                  <Calendar size={16} className="text-rf-blue shrink-0" />
+                  Varighet: 6 uker
+                </div>
+                <div className="flex items-center gap-3 text-sm text-apple-body">
+                  <Clock size={16} className="text-rf-blue shrink-0" />
+                  90-minutters møter, én gang i uken
+                </div>
+                <div className="flex items-center gap-3 text-sm text-apple-body">
+                  <BadgeCheck size={16} className="text-rf-blue shrink-0" />
+                  Tilpasset din situasjon og hverdag
+                </div>
+              </div>
+            </div>
 
+            {/* Pris */}
+            <div className="p-6 rounded-2xl bg-rf-blue text-white">
+              <p className="text-xs font-semibold tracking-widest uppercase 
+                text-white/60 mb-3">
+                PRIS
+              </p>
+              <div className="flex items-baseline gap-3 mb-1">
+                <span className="text-3xl font-bold">30 000 kr</span>
+                <span className="text-lg line-through text-white/40">
+                  50 000 kr
+                </span>
+              </div>
+              <p className="text-white/70 text-sm mb-5">
+                Introduksjonspris for nye kunder
+              </p>
+              <Link to="/kontakt"
+                className="inline-flex items-center gap-2 bg-white 
+                  text-rf-blue font-semibold text-sm px-5 py-3 rounded-xl 
+                  hover:bg-white/90 transition-all">
+                Ta kontakt <ArrowRight size={14} />
+              </Link>
+            </div>
+
+          </div>
         </div>
       </section>
 
-      {/* BUNNSTRIP */}
-      <section
-        className="py-12 px-6 md:px-12 lg:px-24 border-t border-black/5"
-        style={{ backgroundColor: '#F5F5F7' }}
-      >
-        <div className="max-w-[900px] mx-auto flex flex-col md:flex-row
-           items-center justify-between gap-6">
+      {/* ── FORSKNING-BANNER ── */}
+      <section className="px-6 md:px-12 lg:px-24 py-8 bg-white 
+        border-y border-gray-100">
+        <div className="max-w-[900px] mx-auto flex flex-col md:flex-row 
+          items-center justify-between gap-4">
           <div>
-            <p className="text-[0.85rem] text-apple-body/60 mb-1">
-              Vil du vite mer om meg?
+            <p className="font-bold text-apple-dark mb-1">
+              Metodikken er forskningsbasert
             </p>
-            <Link
-              to="/om-meg"
-              className="flex items-center gap-1.5 text-[0.95rem] font-semibold
-              text-rf-blue hover:gap-2.5 transition-all duration-200"
-            >
-              Les om bakgrunnen min <ArrowRight size={15} />
-            </Link>
+            <p className="text-sm text-apple-body">
+              Les om forskningen og teoriene som ligger til grunn – 
+              Kahneman, systemtenkning og mer.
+            </p>
           </div>
-          <a
-            href="tel:95332846"
-            className="inline-flex items-center gap-3 bg-rf-blue text-white
-            px-7 py-3.5 rounded-full font-semibold text-[0.9rem]
-            hover:opacity-90 transition-opacity"
-          >
-            Ring 95 33 28 46
-          </a>
+          <Link to="/innsikt"
+            className="shrink-0 inline-flex items-center gap-2 
+              border border-rf-blue text-rf-blue font-semibold text-sm 
+              px-5 py-3 rounded-xl hover:bg-rf-blue hover:text-white 
+              transition-all">
+            Se forskningen <ArrowRight size={14} />
+          </Link>
+        </div>
+      </section>
+
+      {/* ── SEKSJON 2: Akutt beslutningsbistand ── */}
+      <section id="akutt" 
+        className="px-6 md:px-12 lg:px-24 py-16 bg-[#f8f9fb]">
+        <div className="max-w-[900px] mx-auto">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 
+            items-center">
+
+            {/* Fargeflate – placeholder for bilde */}
+            <div className="rounded-2xl bg-gradient-to-br from-rf-blue/15 
+              to-rf-blue/25 min-h-[280px] flex items-center justify-center
+              order-2 md:order-1">
+              <p className="text-rf-blue/40 text-sm font-medium">
+                [ Bilde kommer ]
+              </p>
+            </div>
+
+            {/* Tekst */}
+            <div className="order-1 md:order-2">
+              <p className="text-xs font-semibold tracking-[0.12em] 
+                uppercase text-rf-blue mb-3">
+                NÅR BESLUTNINGEN IKKE KAN VENTE
+              </p>
+              <h2 className="text-3xl md:text-4xl font-bold 
+                text-apple-dark leading-tight mb-3">
+                Akutt beslutningsbistand
+              </h2>
+              <div className="w-12 h-[2px] bg-rf-blue mb-5" />
+              <p className="text-apple-body leading-relaxed mb-4">
+                Noen ganger har du ikke tid til et 6-ukers forløp. 
+                Avgjørelsen skulle vært tatt i går.
+              </p>
+              <p className="text-apple-body leading-relaxed mb-4">
+                I stedet for å lære deg metodikken bruker jeg den 
+                direkte – inn i situasjonen du er i nå. Du får et 
+                solid, forskningsbasert grunnlag å handle ut fra.
+              </p>
+              <p className="text-apple-body leading-relaxed mb-6">
+                Du får samme innsikt og analytiske tyngde som i det 
+                langsiktige forløpet – anvendt direkte på din 
+                beslutning, der og da.
+              </p>
+              <Link to="/kontakt"
+                className="inline-flex items-center gap-2 bg-rf-blue 
+                  text-white font-semibold text-sm px-5 py-3 rounded-xl 
+                  hover:bg-rf-blue/90 transition-all">
+                Ta kontakt for bistand <ArrowRight size={14} />
+              </Link>
+            </div>
+
+          </div>
         </div>
       </section>
 
     </div>
   );
-};
-
-export default Tjenester;
+}
