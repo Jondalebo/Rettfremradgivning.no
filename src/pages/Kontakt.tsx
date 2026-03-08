@@ -1,10 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { Phone, Mail, ArrowRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Phone, Mail, ArrowRight, CheckCircle } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 
 const Kontakt: React.FC = () => {
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError('');
+
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, phone, message }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Noe gikk galt');
+      }
+
+      setIsSubmitted(true);
+    } catch (err) {
+      setError('Kunne ikke sende meldingen. Prøv igjen eller ring meg direkte.');
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="pt-20">
       <Helmet>
@@ -93,6 +127,111 @@ const Kontakt: React.FC = () => {
               </a>
             </motion.div>
 
+          </div>
+
+          <div className="max-w-[620px] mx-auto mb-20">
+            <AnimatePresence mode="wait">
+              {!isSubmitted ? (
+                <motion.div
+                  key="form"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="bg-white rounded-[20px] p-8 md:p-10
+                  shadow-[0_4px_24px_rgba(0,0,0,0.06)]
+                  border border-black/[0.04]"
+                >
+                  <h2 className="text-[1.4rem] font-bold text-apple-dark mb-6 text-center">
+                    Send en melding
+                  </h2>
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div>
+                      <label htmlFor="name" className="block text-[0.85rem] font-semibold text-apple-dark/60 mb-2 ml-1">
+                        Navn *
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        required
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Ditt navn"
+                        className="w-full px-5 py-4 bg-black/[0.02] border border-black/[0.06] rounded-xl
+                        focus:outline-none focus:border-rf-blue/30 focus:bg-white transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="phone" className="block text-[0.85rem] font-semibold text-apple-dark/60 mb-2 ml-1">
+                        Telefon
+                      </label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        placeholder="Ditt telefonnummer"
+                        className="w-full px-5 py-4 bg-black/[0.02] border border-black/[0.06] rounded-xl
+                        focus:outline-none focus:border-rf-blue/30 focus:bg-white transition-all"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="message" className="block text-[0.85rem] font-semibold text-apple-dark/60 mb-2 ml-1">
+                        Melding *
+                      </label>
+                      <textarea
+                        id="message"
+                        required
+                        rows={5}
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        placeholder="Hva kan jeg hjelpe deg med?"
+                        className="w-full px-5 py-4 bg-black/[0.02] border border-black/[0.06] rounded-xl
+                        focus:outline-none focus:border-rf-blue/30 focus:bg-white transition-all resize-none"
+                      />
+                    </div>
+
+                    {error && (
+                      <p className="text-red-500 text-sm text-center">{error}</p>
+                    )}
+
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full py-4 bg-rf-blue text-white font-semibold 
+                        rounded-xl hover:bg-rf-blue/90 transition-all duration-200
+                        disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? 'Sender...' : 'Send melding'}
+                    </button>
+                  </form>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="success"
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="bg-white rounded-[20px] p-12 text-center
+                  shadow-[0_4px_24px_rgba(0,0,0,0.06)]
+                  border border-black/[0.04]"
+                >
+                  <div className="w-16 h-16 bg-green-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <CheckCircle className="text-green-500" size={32} />
+                  </div>
+                  <h2 className="text-[1.6rem] font-bold text-apple-dark mb-4">
+                    Meldingen er sendt!
+                  </h2>
+                  <p className="text-apple-body leading-relaxed mb-8">
+                    Takk for din henvendelse. Jeg har mottatt meldingen din og tar kontakt med deg så snart som mulig.
+                  </p>
+                  <button
+                    onClick={() => setIsSubmitted(false)}
+                    className="text-rf-blue font-semibold hover:underline"
+                  >
+                    Send en ny melding
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           <motion.div
