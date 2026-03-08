@@ -37,7 +37,7 @@ const Hjem: React.FC = () => {
     <div className="pt-20">
       <Helmet>
         <title>Rett Frem Rådgivning – Ekstern beslutningsstøtte for ledere</title>
-        <meta name="description" content="Ekstern sparringspartner for ledere i komplekse beslutninger. Langsiktig beslutningsstøtte som gir oversikt over helheten – ikke bare symptomet." />
+        <meta name="description" content="Hvor mye koster en dårlig beslutning? Ekstern sparringspartner som hjelper ledere ta beslutninger som holder. Ring 95 33 28 46." />
         <link rel="canonical" href="https://www.rettfremradgivning.no/" />
       </Helmet>
 
@@ -63,14 +63,14 @@ const Hjem: React.FC = () => {
                 Rett Frem Rådgivning
               </p>
               <h1 className="text-[2.8rem] md:text-[3.5rem] font-extrabold text-apple-dark leading-[1.1] tracking-tight mb-6">
-                De beste beslutningene tas{' '}
-                <span className="text-rf-blue italic">ikke</span>{' '}
-                alene
+                Hvor mye koster en{' '}
+                <span className="text-rf-blue italic">dårlig</span>{' '}
+                beslutning?
               </h1>
               <div className="w-12 h-[2px] bg-rf-blue mb-6" />
               <p className="text-[1.05rem] text-apple-body max-w-[480px] leading-[1.65]">
-                Komplekse organisasjoner skaper komplekse utfordringer.
-                Løsningen krever oversikt over helheten – ikke bare symptomet.
+                Ekstern sparringspartner som hjelper ledere ta beslutninger 
+                som holder.
               </p>
             </motion.div>
 
@@ -136,11 +136,11 @@ const Hjem: React.FC = () => {
                 </div>
                 <div>
                   <p className="text-[0.78rem] font-bold tracking-[0.08em] uppercase text-rf-blue mb-1">
-                    Har du oversikt?
+                    Beslutningsstøtte i praksis
                   </p>
                   <p className="text-[0.95rem] font-semibold text-apple-dark
                      group-hover:text-rf-blue transition-colors leading-snug">
-                    Se løsninger på vanlige lederutfordringer
+                    Se hvilke utfordringer jeg hjelper ledere med
                   </p>
                 </div>
               </Link>
