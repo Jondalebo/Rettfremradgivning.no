@@ -69,8 +69,8 @@ const Hjem: React.FC = () => {
               </h1>
               <div className="w-12 h-[2px] bg-rf-blue mb-6" />
               <p className="text-[1.05rem] text-apple-body max-w-[480px] leading-[1.65]">
-                Ekstern sparringspartner som hjelper ledere ta beslutninger 
-                som holder.
+                Ekstern sparringspartner med psykologisk bakgrunn – gir deg 
+                strukturen bak bærekraftige beslutninger.
               </p>
             </motion.div>
 
