@@ -37,7 +37,7 @@ const Hjem: React.FC = () => {
     <div className="pt-20">
       <Helmet>
         <title>Rett Frem Rådgivning – Ekstern beslutningsstøtte for ledere</title>
-        <meta name="description" content="Hvor mye koster en dårlig beslutning? Ekstern sparringspartner som hjelper ledere ta beslutninger som holder. Ring 95 33 28 46." />
+        <meta name="description" content="Ekstern sparringspartner med psykologisk bakgrunn. Jeg hjelper ledere med å ta bedre beslutninger – gjennom strukturert metodikk basert på forskning. rettfremradgivning.no" />
         <link rel="canonical" href="https://www.rettfremradgivning.no/" />
       </Helmet>
 
