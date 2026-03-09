@@ -42,8 +42,15 @@ const Hjem: React.FC = () => {
       </Helmet>
 
       {/* HERO */}
-      <section className="min-h-[calc(100vh-5rem)] flex items-center px-6 md:px-12 lg:px-24 bg-white">
-        <div className="max-w-[900px] mx-auto w-full relative">
+      <section className="relative overflow-hidden grain-overlay min-h-[calc(100vh-5rem)] flex items-center px-6 md:px-12 lg:px-24 bg-white">
+        <div 
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 z-0"
+          style={{
+            background: 'radial-gradient(ellipse 70% 55% at 50% 0%, rgba(0,51,102,0.055) 0%, transparent 72%)'
+          }}
+        />
+        <div className="max-w-[900px] mx-auto w-full relative z-10">
           {/* Subtil bakgrunnsglow */}
           <div 
             className="absolute -top-32 -right-32 w-[500px] h-[500px] 
@@ -150,6 +157,8 @@ const Hjem: React.FC = () => {
         </div>
       </section>
 
+      <div className="section-divider" aria-hidden="true" />
+
       {/* SEKSJONSKORT */}
       <section className="py-20 px-6 md:px-12 lg:px-24" style={{ backgroundColor: '#F5F5F7' }}>
         <div className="max-w-[900px] mx-auto">
@@ -193,6 +202,8 @@ const Hjem: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <div className="section-divider" aria-hidden="true" />
 
       {/* BUNN-CTA */}
       <section className="py-16 px-6 md:px-12 lg:px-24 bg-white border-t border-black/5">
