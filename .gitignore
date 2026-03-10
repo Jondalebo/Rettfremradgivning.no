@@ -6,3 +6,8 @@ coverage/
 *.log
 .env*
 !.env.example
+# Bildefiler håndteres manuelt via GitHub – skal aldri overskrives av AI
+public/*.png
+public/*.jpg
+public/*.jpeg
+public/*.webp
