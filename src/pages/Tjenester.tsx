@@ -177,11 +177,13 @@ export default function Tjenester() {
 
           </div>
 
-          <div className="mt-8 rounded-2xl bg-gradient-to-br from-rf-blue/10 
-            to-rf-blue/20 w-full h-52 flex items-center justify-center">
-            <span className="text-rf-blue/30 text-xs font-medium">
-              [ Bilde kommer ]
-            </span>
+          <div className="mt-8 rounded-2xl overflow-hidden w-full h-64">
+            <img 
+              src="/Kompass-Besluttning-seksjon.png" 
+              alt="Langsiktig beslutningsstøtte" 
+              className="w-full h-full object-cover object-center"
+              referrerPolicy="no-referrer"
+            />
           </div>
 
           <div className="pt-6 flex flex-col md:flex-row items-center 
@@ -208,19 +210,20 @@ export default function Tjenester() {
 
       {/* ── SEKSJON 2: Akutt beslutningsbistand ── */}
       <section id="akutt" 
-        className="px-6 md:px-12 lg:px-24 py-16 bg-[#f8f9fb]">
+        className="px-6 md:px-12 lg:px-24 py-16 bg-[#f8f9fb] scroll-mt-[20px]">
         <div className="max-w-[900px] mx-auto">
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 
             items-center">
 
             {/* Fargeflate – placeholder for bilde */}
-            <div className="rounded-2xl bg-gradient-to-br from-rf-blue/15 
-              to-rf-blue/25 min-h-[280px] flex items-center justify-center
-              order-2 md:order-1">
-              <p className="text-rf-blue/40 text-sm font-medium">
-                [ Bilde kommer ]
-              </p>
+            <div className="rounded-2xl overflow-hidden min-h-[280px] order-2 md:order-1">
+              <img
+                src="/akutt-bilde.jpg"
+                alt="Leder i beslutningsøyeblikk"
+                className="w-full h-full object-cover object-center 
+                  rounded-2xl min-h-[280px]"
+              />
             </div>
 
             {/* Tekst */}

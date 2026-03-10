@@ -42,118 +42,95 @@ const Hjem: React.FC = () => {
       </Helmet>
 
       {/* HERO */}
-      <section className="relative overflow-hidden grain-overlay min-h-[calc(100vh-5rem)] flex items-center px-6 md:px-12 lg:px-24 bg-white">
-        <div 
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-0"
+      <section className="relative overflow-hidden grid grid-cols-1 lg:grid-cols-[58%_42%] h-[calc(100vh-64px)] max-h-screen bg-[#eef2f7]">
+        <div
+          className="absolute inset-0 lg:hidden"
           style={{
-            background: 'radial-gradient(ellipse 70% 55% at 50% 0%, rgba(0,51,102,0.055) 0%, transparent 72%)'
+            backgroundImage: 'url(/Vekt-Hero-seksjon.png)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
           }}
-        />
-        <div className="max-w-[900px] mx-auto w-full relative z-10">
-          {/* Subtil bakgrunnsglow */}
-          <div 
-            className="absolute -top-32 -right-32 w-[500px] h-[500px] 
-            rounded-full -z-10 pointer-events-none"
-            style={{ 
-              background: 'radial-gradient(circle, rgba(0,51,102,0.04) 0%, transparent 70%)' 
-            }} 
+        >
+          <div className="absolute inset-0"
+            style={{ backgroundColor: 'rgba(28,43,58,0.82)' }}
           />
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+        </div>
+        {/* Venstre kolonne */}
+        <div className="relative z-10 flex flex-col justify-center pl-8 lg:pl-24 pr-6 lg:pr-12 py-6 lg:py-0 h-full gap-0 lg:gap-0 overflow-hidden">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9 }}
+          >
+            {/* Label */}
+            <p className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-300 md:text-[#4a6fa5] mb-3 md:mb-6">
+              Ekstern sparringspartner
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9 }}
+            <h1 className="text-3xl lg:text-5xl xl:text-7xl font-extrabold text-white lg:text-[#1c2b3a] leading-[1.1] tracking-tight mb-2 max-w-sm lg:max-w-none">
+              Hvor mye koster en{' '}
+              <span className="text-[#f0c060] lg:text-rf-blue italic">dårlig</span>{' '}
+              beslutning?
+            </h1>
+            <div className="w-12 h-[2px] bg-white md:bg-[#1c2b3a] mb-2" />
+
+            {/* Undertekst */}
+            <p className="text-white/85 lg:text-[#2c3e50] lg:opacity-70 text-base leading-relaxed mt-4 mb-6 lg:mt-6 lg:mb-7 max-w-md">
+              Jeg hjelper ledere med å ta bedre beslutninger – gjennom strukturert metodikk og psykologisk innsikt.
+            </p>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, delay: 0.15 }}
+            className="flex flex-col gap-2 max-w-[400px]"
+          >
+            <Link
+              to="/tjenester"
+              className="w-full flex items-center justify-between gap-4
+              bg-rf-blue text-white px-6 py-3 rounded-[12px]
+              font-semibold text-[0.95rem] hover:opacity-90 transition-opacity"
             >
-              <p className="text-[0.7rem] tracking-[0.15em] uppercase text-rf-blue/70 font-semibold mb-4">
-                Rett Frem Rådgivning
-              </p>
-              <h1 className="text-[2.8rem] md:text-[3.5rem] font-extrabold text-apple-dark leading-[1.1] tracking-tight mb-6">
-                Hvor mye koster en{' '}
-                <span className="text-rf-blue italic">dårlig</span>{' '}
-                beslutning?
-              </h1>
-              <div className="w-12 h-[2px] bg-rf-blue mb-6" />
-              <p className="text-[1.05rem] text-apple-body max-w-[480px] leading-[1.65]">
-                Ekstern sparringspartner med psykologisk bakgrunn – gir deg 
-                strukturen bak bærekraftige beslutninger.
-              </p>
-            </motion.div>
+              Se hva jeg tilbyr
+              <ArrowRight size={18} />
+            </Link>
 
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.9, delay: 0.15 }}
-              className="flex flex-col gap-4"
+            <Link
+              to="/kontakt"
+              className="w-full flex items-center justify-between gap-4
+              border border-white/50 text-white md:border-[#1c2b3a] md:text-[#1c2b3a] px-6 py-3 rounded-[12px]
+              font-semibold text-[0.95rem] hover:border-rf-blue/40
+              hover:bg-rf-blue/5 transition-all"
             >
-              <Link
-                to="/tjenester"
-                className="w-full flex items-center justify-between gap-4
-                bg-rf-blue text-white px-6 py-4 rounded-[12px]
-                font-semibold text-[1rem] hover:opacity-90 transition-opacity"
-              >
-                Se hva jeg tilbyr
-                <ArrowRight size={18} />
-              </Link>
+              Ta kontakt
+              <ArrowRight size={18} className="text-rf-blue" />
+            </Link>
 
-              <Link
-                to="/kontakt"
-                className="w-full flex items-center justify-between gap-4
-                border border-rf-blue/20 text-apple-dark px-6 py-4 rounded-[12px]
-                font-semibold text-[1rem] hover:border-rf-blue/40
-                hover:bg-rf-blue/5 transition-all"
-              >
-                Ta kontakt
-                <ArrowRight size={18} className="text-rf-blue" />
-              </Link>
+            <Link
+              to="/losninger"
+              className="inline-flex items-center gap-2 
+                text-sm text-[#4a6fa5] lg:text-[#1c2b3a]/60
+                hover:text-[#1c2b3a] lg:hover:text-[#1c2b3a]
+                transition-colors duration-200 mt-2"
+            >
+              Kjenner du igjen noen av disse situasjonene?
+              <span>→</span>
+            </Link>
+          </motion.div>
+        </div>
 
-              <div className="pt-4 border-t border-black/5 flex flex-col gap-3">
-                <a
-                  href="tel:95332846"
-                  className="flex items-center gap-2.5 text-[0.88rem] font-medium 
-                  text-apple-body hover:text-rf-blue transition-colors group"
-                >
-                  <Phone size={15} className="text-rf-blue/60 group-hover:text-rf-blue 
-                    transition-colors shrink-0" />
-                  95 33 28 46
-                </a>
-                <a
-                  href="mailto:post@rettfremradgivning.no"
-                  className="flex items-center gap-2.5 text-[0.88rem] font-medium 
-                  text-apple-body hover:text-rf-blue transition-colors group"
-                >
-                  <Mail size={15} className="text-rf-blue/60 group-hover:text-rf-blue 
-                    transition-colors shrink-0" />
-                  post@rettfremradgivning.no
-                </a>
-              </div>
-
-              <Link
-                to="/losninger"
-                className="group flex items-start gap-4 p-5 rounded-[14px]
-                bg-rf-blue/5 border border-rf-blue/10
-                hover:border-rf-blue/25 hover:bg-rf-blue/[0.07]
-                transition-all duration-300"
-              >
-                <div className="mt-0.5 w-8 h-8 rounded-full bg-rf-blue/10
-                   flex items-center justify-center shrink-0
-                   group-hover:bg-rf-blue/20 transition-colors">
-                  <ArrowRight size={15} className="text-rf-blue" />
-                </div>
-                <div>
-                  <p className="text-[0.78rem] font-bold tracking-[0.08em] uppercase text-rf-blue mb-1">
-                    Beslutningsstøtte i praksis
-                  </p>
-                  <p className="text-[0.95rem] font-semibold text-apple-dark
-                     group-hover:text-rf-blue transition-colors leading-snug">
-                    Se hvilke utfordringer jeg hjelper ledere med
-                  </p>
-                </div>
-              </Link>
-            </motion.div>
-
-          </div>
+        {/* Høyre kolonne */}
+        <div className="relative h-full overflow-hidden hidden lg:block">
+          <img
+            src="/Vekt-Hero-seksjon.png"
+            alt="Vekten av en beslutning"
+            className="w-full h-full object-cover object-center"
+          />
+          <div
+            className="absolute inset-0"
+            style={{ backgroundColor: 'rgba(28, 43, 58, 0.45)' }}
+          />
         </div>
       </section>
 

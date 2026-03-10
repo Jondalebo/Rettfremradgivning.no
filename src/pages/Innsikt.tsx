@@ -61,9 +61,14 @@ const Innsikt = () => {
                   to={`/innsikt/${post.id}`} 
                   className="group block bg-white rounded-lg overflow-hidden shadow-[0_2px_12px_rgba(0,0,0,0.06)] hover:shadow-[0_4px_20px_rgba(0,0,0,0.1)] transition-all duration-300"
                 >
-                  {/* Placeholder Image */}
-                  <div className="aspect-video bg-[#f0f0f0] flex items-center justify-center">
-                    <span className="text-[0.8rem] text-apple-body/60">Bilde kommer</span>
+                  {/* Image */}
+                  <div className="aspect-video overflow-hidden">
+                    <img 
+                      src={`https://picsum.photos/seed/insight-${post.id}/800/450`} 
+                      alt={post.title} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      referrerPolicy="no-referrer"
+                    />
                   </div>
                   
                   {/* Content */}

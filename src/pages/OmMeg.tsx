@@ -39,19 +39,28 @@ const OmMeg: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="mb-14"
+            className="mb-14 flex flex-col md:flex-row gap-10 items-center md:items-start"
           >
-            <p className="text-[0.7rem] tracking-[0.15em] uppercase text-rf-blue/70 font-semibold mb-4">
-              OM MEG
-            </p>
-            <h1 className="text-[2.5rem] font-extrabold text-apple-dark leading-tight mb-4">
-              Jon Martin Hovd Dalebø
-            </h1>
-            <div className="w-12 h-[2px] bg-rf-blue mb-6" />
-            <p className="text-[1.05rem] text-apple-body max-w-[600px] leading-[1.65]">
-              Psykologiutdanning med fordypning i organisasjonspsykologi, kombinert
-              med bred erfaring fra arbeid tett på mennesker i krevende situasjoner.
-            </p>
+            <div className="w-48 h-48 rounded-2xl overflow-hidden shrink-0 shadow-lg">
+              <img 
+                src="/Om-Meg-Seksjon-Stol.png" 
+                alt="Samtalerom" 
+                className="w-full h-full object-cover rounded-xl"
+              />
+            </div>
+            <div>
+              <p className="text-[0.7rem] tracking-[0.15em] uppercase text-rf-blue/70 font-semibold mb-4">
+                OM MEG
+              </p>
+              <h1 className="text-[2.5rem] font-extrabold text-apple-dark leading-tight mb-4">
+                Jon Martin Hovd Dalebø
+              </h1>
+              <div className="w-12 h-[2px] bg-rf-blue mb-6" />
+              <p className="text-[1.05rem] text-apple-body max-w-[600px] leading-[1.65]">
+                Psykologiutdanning med fordypning i organisasjonspsykologi, kombinert
+                med bred erfaring fra arbeid tett på mennesker i krevende situasjoner.
+              </p>
+            </div>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
